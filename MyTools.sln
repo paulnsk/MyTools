@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29911.84
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serializer", "Serializer\Serializer.csproj", "{AC54A706-1120-495E-92D7-0A759B6F9E57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{67CC27A2-7F18-43E0-AE0F-BED26A87C682}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LameTimer", "LameTimer\LameTimer.csproj", "{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AC54A706-1120-495E-92D7-0A759B6F9E57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC54A706-1120-495E-92D7-0A759B6F9E57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC54A706-1120-495E-92D7-0A759B6F9E57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC54A706-1120-495E-92D7-0A759B6F9E57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67CC27A2-7F18-43E0-AE0F-BED26A87C682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67CC27A2-7F18-43E0-AE0F-BED26A87C682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67CC27A2-7F18-43E0-AE0F-BED26A87C682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67CC27A2-7F18-43E0-AE0F-BED26A87C682}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA19B0F7-3DC8-4C3C-985D-A91907B667B9}
+	EndGlobalSection
+EndGlobal
