@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29911.84
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serializer", "Serializer\Serializer.csproj", "{AC54A706-1120-495E-92D7-0A759B6F9E57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{67CC27A2-7F18-43E0-AE0F-BED26A87C682}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "Utils\Utils.csproj", "{67CC27A2-7F18-43E0-AE0F-BED26A87C682}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LameTimer", "LameTimer\LameTimer.csproj", "{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LameTimer", "LameTimer\LameTimer.csproj", "{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiClient", "ApiClient\ApiClient.csproj", "{670A0829-77C2-4EA9-912B-79379D59359F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypt", "Crypt\Crypt.csproj", "{39329003-1B0F-4522-A866-844D0C99CF01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1A6DE8D-A63A-4F26-9E35-A3E22A53EA65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{670A0829-77C2-4EA9-912B-79379D59359F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{670A0829-77C2-4EA9-912B-79379D59359F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{670A0829-77C2-4EA9-912B-79379D59359F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{670A0829-77C2-4EA9-912B-79379D59359F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39329003-1B0F-4522-A866-844D0C99CF01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39329003-1B0F-4522-A866-844D0C99CF01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39329003-1B0F-4522-A866-844D0C99CF01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39329003-1B0F-4522-A866-844D0C99CF01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

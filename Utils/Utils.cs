@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace MyTools
 {
+
+    
+
     public static class Utils
     {
 
@@ -24,6 +31,16 @@ namespace MyTools
             return Path.GetDirectoryName(ExePath());
         }
 
+        public static string ExeName()
+        {
+            return Path.GetFileName(ExePath());
+        }
+
+
+        public static string ExeNameWithoutExtension()
+        {
+            return Path.GetFileNameWithoutExtension(ExePath());
+        }
 
         #endregion Paths
 
@@ -65,17 +82,7 @@ namespace MyTools
 
         #endregion Crypto
 
-
-
-
-
-
-
-
-
-
-
-
+        
 
         #region ToSort
 
@@ -120,6 +127,63 @@ namespace MyTools
         //    IDictionary<string, object> map = o;
         //    map.Remove(fieldName);
         //}
+
+
+        /// <summary>
+        /// Returns a copy (a snapshot) of an object
+        /// </summary>
+        public static T DeepCopy<T>(this T @this)
+        {
+            using (var stream = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(stream, @this);
+                stream.Position = 0;
+                return (T)formatter.Deserialize(stream);
+            }
+        }
+
+
+        /// <summary>
+        /// Does kinda same thing as DeepCopy but preserves the original object
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="target"></param>
+        public static void CopyProperties(object source, object target)
+        {
+            var srcType = source.GetType();
+            var trgType = target.GetType();
+
+            if (srcType != trgType) throw new Exception("Source and target types must be identical");
+
+            foreach (var prop in srcType.GetProperties())
+            {
+                var val = prop.GetValue(source);
+                prop.SetValue(target, val);
+            }
+        }
+
+
+        /// <summary>
+        /// Splits a string that contains some quoted parts within which spaces are ignored
+        /// </summary>
+        /// <param name="this"></param>
+        /// <returns></returns>
+        public static List<string> SplitQuoted(this string @this)
+        {
+            //https://stackoverflow.com/questions/14655023/split-a-string-that-has-white-spaces-unless-they-are-enclosed-within-quotes
+            return Regex.Matches(@this, @"[\""].+?[\""]|[^ ]+")
+                .Cast<Match>()
+                .Select(m => m.Value)
+                .ToList();
+        }
+
+
+        public static void StartProcess(string filepathOrUrl, string arguments = "")
+        {
+            var p = new Process { StartInfo = { FileName = filepathOrUrl, Arguments = arguments, UseShellExecute = true } };
+            p.Start();
+        }
 
         #endregion ToSort
 
