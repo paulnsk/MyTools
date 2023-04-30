@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MyTools
 {
@@ -19,71 +20,8 @@ namespace MyTools
     public static class Utils
     {
 
-        #region Paths
-
-        public static string ExePath()
-        {
-            return Assembly.GetEntryAssembly()?.Location;
-        }
-
-        public static string ExeDir()
-        {
-            return Path.GetDirectoryName(ExePath());
-        }
-
-        public static string ExeName()
-        {
-            return Path.GetFileName(ExePath());
-        }
-
-
-        public static string ExeNameWithoutExtension()
-        {
-            return Path.GetFileNameWithoutExtension(ExePath());
-        }
-
-        #endregion Paths
-
-        #region Crypto  
-        public static string Md5File(string fileName)
-        {
-            try
-            {
-                var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-                byte[] hash;
-                using (MD5 md5 = new MD5CryptoServiceProvider())
-                {
-                    hash = md5.ComputeHash(fs);
-                }
-                fs.Close();
-                var sb = new StringBuilder();
-                foreach (byte hex in hash) sb.Append(hex.ToString("x2", CultureInfo.InvariantCulture));
-                return sb.ToString();
-            }
-            catch (Exception)
-            {
-                return "";
-            }
-        }
-
-
-        public static string Md5String(string sourceString)
-        {
-            if (sourceString == null) sourceString = "";
-            using (var md5 = new MD5CryptoServiceProvider())
-            {
-                var data = Encoding.UTF8.GetBytes(sourceString);
-                data = md5.ComputeHash(data);
-                var sb = new StringBuilder();
-                foreach (byte hex in data) sb.Append(hex.ToString("x2", CultureInfo.InvariantCulture));
-                return sb.ToString();
-            }
-        }
-
-        #endregion Crypto
 
         
-
         #region ToSort
 
         /// <summary>
@@ -129,39 +67,6 @@ namespace MyTools
         //}
 
 
-        /// <summary>
-        /// Returns a copy (a snapshot) of an object
-        /// </summary>
-        public static T DeepCopy<T>(this T @this)
-        {
-            using (var stream = new MemoryStream())
-            {
-                var formatter = new BinaryFormatter();
-                formatter.Serialize(stream, @this);
-                stream.Position = 0;
-                return (T)formatter.Deserialize(stream);
-            }
-        }
-
-
-        /// <summary>
-        /// Does kinda same thing as DeepCopy but preserves the original object
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="target"></param>
-        public static void CopyProperties(object source, object target)
-        {
-            var srcType = source.GetType();
-            var trgType = target.GetType();
-
-            if (srcType != trgType) throw new Exception("Source and target types must be identical");
-
-            foreach (var prop in srcType.GetProperties())
-            {
-                var val = prop.GetValue(source);
-                prop.SetValue(target, val);
-            }
-        }
 
 
         /// <summary>
@@ -179,16 +84,19 @@ namespace MyTools
         }
 
 
-        public static void StartProcess(string filepathOrUrl, string arguments = "")
+        public static void CopyProperties(object source, object target)
         {
-            var p = new Process { StartInfo = { FileName = filepathOrUrl, Arguments = arguments, UseShellExecute = true } };
-            p.Start();
+            var type1 = source.GetType();
+            var type2 = target.GetType();
+            if (type1 != type2) throw new Exception("Source and target types must be identical");
+            foreach (var property in type1.GetProperties())
+            {
+                var obj = property.GetValue(source);
+                property.SetValue(target, obj);
+            }
         }
 
         #endregion ToSort
-
-
-
 
 
     }

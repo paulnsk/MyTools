@@ -1,33 +1,49 @@
-﻿namespace Crypt
+﻿namespace MyTools.Crypt
 {
 
 
-    public static class CypherExt
+    public static class CypherUtils
     {
-        private static string defaultPassword = "0Мастер@Пасворд0";
-        private static string _lastusedPassword = string.Empty;
+        private static string _currentPassword = string.Empty;
 
+        public static string CurrentPassword
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_currentPassword)) throw new Exception("Current password is empty!");
+                return _currentPassword;
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(value)) throw new Exception("Password cannot be empty!");
+                _currentPassword = value;
+            }
+        }
 
         public static string Enkript(this string @this)
         {
-            _lastusedPassword = defaultPassword;
-            return StringCipher.Encrypt(@this, defaultPassword);
-        }
-
-        public static string Enkript(this string @this, string password)
-        {
-            _lastusedPassword = password; 
-            return StringCipher.Encrypt(@this, password);
+            return StringCipher.Encrypt(@this, CurrentPassword);
         }
 
         public static string Dekript(this string @this)
         {
-            return StringCipher.Decrypt(@this, defaultPassword);
+            return StringCipher.Decrypt(@this, CurrentPassword);
         }
 
-        public static string Dekript(this string @this, string password)
+
+        public static bool TryDekript(this string @this, out string result)
         {
-            return StringCipher.Decrypt(@this, password);
+            try
+            {
+                result = StringCipher.Decrypt(@this, CurrentPassword);
+                return true;
+            }
+            catch (Exception)
+            {
+                result = "";
+                return false;
+            }
+
         }
     }
 

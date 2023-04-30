@@ -7,6 +7,7 @@ namespace MyTools
 {
     public static class ApiCLientUtils
     {
+        [Obsolete("no longer works in .net 7")]
         public static HttpClient CreateHttpClientWithAuthentication(string user, string password)
         {
             var result = new HttpClient();
