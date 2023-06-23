@@ -24,21 +24,25 @@ namespace MyTools
             p.WaitForExit();
         }
 
-        public static async Task ProcessDirRecursively(string DirFullPath, string mask, Func<string, Task> fileAction, Func<string, Task> dirAction)
+        public static async Task ProcessDirRecursively(string DirFullPath, string mask, Func<string, Task>? fileAction, Func<string, Task>? dirAction)
         {
             await Task.Run(async () =>
             {
                 string[] files = Directory.GetFiles(DirFullPath, mask);
-                foreach (string s in files)
+                if (fileAction != null)
                 {
-                    await fileAction(s);
+                    foreach (string s in files)
+                    {
+                        await fileAction(s);
+                    }
                 }
+
                 string[] dirs = Directory.GetDirectories(DirFullPath);
                 foreach (string s in dirs)
                 {
                     var attr = File.GetAttributes(s);
                     if (attr.HasFlag(FileAttributes.ReparsePoint) || attr.HasFlag(FileAttributes.System)) continue;
-                    await dirAction(s);
+                    if (dirAction != null) await dirAction(s);
                     await ProcessDirRecursively(s, mask, fileAction, dirAction);
                 }
             });

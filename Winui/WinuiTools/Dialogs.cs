@@ -13,10 +13,7 @@ namespace WinuiTools
     public static class Dialogs
     {
 
-        //todo ** перетащить диалогсервис сюда, и диспетчерсервис заодно. Добавить в диспетчерсервис еще и ссылку на хамлрут главного окна
         
-
-        //todo save dialog
         public static async Task<string> ShowOpenFileDialog(this Window @this, PickerViewMode pickerViewMode = PickerViewMode.Thumbnail, IList<string> fileTypeFilter = default)
         {
             var openPicker = new FileOpenPicker();
@@ -36,8 +33,7 @@ namespace WinuiTools
             return file?.Path;
         }
 
-        //todo Confirmed()
-        
+
         //todo_ this works for background threads but if there is already a content dialog open the one initiated by bg thread is ignored.
         public static async Task ShowMessage(this Window @this, string message)
         {

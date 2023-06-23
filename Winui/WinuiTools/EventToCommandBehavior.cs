@@ -32,8 +32,7 @@ namespace WinuiTools
      *
      *
      */
-    
-    //todo look up toolkit might already have one
+
     public class EventToCommandBehavior : DependencyObject, IBehavior
     {
         public static readonly DependencyProperty EventNameProperty =

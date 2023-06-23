@@ -7,16 +7,6 @@ namespace MyTools
     public static class ExtMeth
     {
 
-        #region Exceptions
-        public static string ToStringWithInner(this Exception @this)
-        {
-            if (@this == null) return "";
-            var result = "[" + @this.GetType() + "]: " + @this.Message;
-            if (@this.InnerException != null) result += "; Inner: " + @this.InnerException.Message;
-            return result;
-        }
-        #endregion Exceptions
-
 
         #region Strings
 
@@ -46,6 +36,9 @@ namespace MyTools
         {
             return @this.Equals(otherString, StringComparison.OrdinalIgnoreCase);
         }
+
+        public static bool IsBlank(this string? @this) => string.IsNullOrWhiteSpace(@this);
+
         #endregion Strings
     }
 }

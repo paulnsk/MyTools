@@ -18,5 +18,16 @@ namespace MyTools
             if (@this.InnerException != null) result += "; Inner: " + @this.InnerException.ToStringWithInners();
             return result;
         }
+
+
+        
+        public static string ToStringWithInner(this Exception @this)
+        {
+            if (@this == null) return "";
+            var result = "[" + @this.GetType() + "]: " + @this.Message;
+            if (@this.InnerException != null) result += "; Inner: " + @this.InnerException.Message;
+            return result;
+        }
+
     }
 }

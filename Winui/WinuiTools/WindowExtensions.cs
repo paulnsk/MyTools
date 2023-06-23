@@ -49,10 +49,12 @@ namespace WinuiTools
 
         public static void MakeModal(this Window @this, Window owner)
         {
-            //todo *** сделать из этого диалог
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(@this);
-            var hwndOwner = WinRT.Interop.WindowNative.GetWindowHandle(owner);
-            User32.SetWindowLongPtr(hwnd, User32.WindowLongIndexFlags.GWLP_HWNDPARENT, hwndOwner);
+            if (owner != null)
+            {
+                var hwndOwner = WinRT.Interop.WindowNative.GetWindowHandle(owner);
+                User32.SetWindowLongPtr(hwnd, User32.WindowLongIndexFlags.GWLP_HWNDPARENT, hwndOwner);
+            }
 
             var presenter = GetOverlappedPresenter(@this);
             if (presenter != null) presenter.IsModal = true;
