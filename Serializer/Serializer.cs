@@ -34,7 +34,7 @@ namespace MyTools
         public static bool XmlEmptyNamespaces { get; set; } = true;
         public static bool XmlOmitDeclaration { get; set; } = true;
         public static bool XmlClearAllAttributesAfterSerializing { get; set; }
-
+        public static SerializerMode DefaultMode { get; set; } = SerializerMode.Json;
 
         #endregion
 
@@ -156,8 +156,9 @@ namespace MyTools
         #endregion json
         
         #region generic
-        public static T Deserialize<T>(this string objectString, SerializerMode mode = default, Action<Exception> onError = null)
+        public static T Deserialize<T>(this string objectString, SerializerMode? mode = null, Action<Exception> onError = null)
         {
+            if (mode == null) mode = DefaultMode;
             switch (mode)
             {
                 case SerializerMode.Xml:
@@ -169,8 +170,9 @@ namespace MyTools
             }
         }
 
-        public static string Serialize(this object @this, SerializerMode mode = default, Type[] includedTypes = null)
+        public static string Serialize(this object @this, SerializerMode? mode = null, Type[] includedTypes = null)
         {
+            if (mode == null) mode = DefaultMode;
             switch (mode)
             {
                 case SerializerMode.Xml:
@@ -193,9 +195,10 @@ namespace MyTools
         /// <param name="mode"></param>
         /// <param name="xmlroot">If an object has more than 1 top-level field this must be specified</param>
         /// <returns></returns>
-        public static string DynSerialize(object o, string xmlroot = null, SerializerMode mode = default)
+        public static string DynSerialize(object o, string xmlroot = null, SerializerMode? mode = null)
         {
-            
+            if (mode == null) mode = DefaultMode;
+
             var json = JsonConvert.SerializeObject(o);
             if (mode == SerializerMode.Json) return json;
 
@@ -212,8 +215,9 @@ namespace MyTools
             return sb.ToString();
         }
 
-        public static dynamic DynDeserialize(this string objectString, SerializerMode mode = default)
+        public static dynamic DynDeserialize(this string objectString, SerializerMode? mode = null)
         {
+            if (mode == null) mode = DefaultMode;
             //todo onError?
             switch (mode)
             {

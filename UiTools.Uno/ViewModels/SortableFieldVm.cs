@@ -1,21 +1,29 @@
 ﻿
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 
 namespace UiTools.Uno.ViewModels
 {
 
-    //todo как конвертить СортКондишен в SortableFieldViewModel? это посути одно и то же
-
-    public partial class SortableFieldViewModel : ObservableObject
+    
+    public partial class SortableFieldVm : ObservableObject
     {
 
 
-        public SortableFieldViewModel(string fieldName)
+        public SortableFieldVm(string fieldName)
         {
-            _fieldName = fieldName;            
-        }        
+            _fieldName = fieldName;
+            //PropertyChanged += (s, e) => 
+            //{
+            //    if (e.PropertyName == nameof(IsDescending)) 
+            //    {
+            //        ArrowGlyph = IsDescending ? "D" : "A";
+            //    }
+            //};
+        }
 
+        
         public string ArrowToolTip
         {
             //getter only property does not want to be bindable
@@ -23,10 +31,11 @@ namespace UiTools.Uno.ViewModels
             set { }
         }
 
+
         public string ArrowGlyph
         {
-            //getter only property does not want to be bindable
-            get => IsDescending ? "\uE74B" : "\uE74A";
+            //getter only property does not want to be bindable            
+            get => IsDescending ? "↓" : "↑";            
             set { }
         }
 
@@ -46,6 +55,12 @@ namespace UiTools.Uno.ViewModels
 
         [ObservableProperty]
         private int _order;
+
+        [RelayCommand]
+        private void Uncheck()
+        {
+            IsChecked = false;  
+        }
 
 
         partial void OnIsCheckedChanged(bool value)

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinuiTools.Core", "Winui\Wi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UiTools.Uno", "UiTools.Uno\UiTools.Uno.csproj", "{FEB58997-5152-40B7-8237-39E5BA16947A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripter", "Scripter\Scripter.csproj", "{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -139,6 +141,18 @@ Global
 		{FEB58997-5152-40B7-8237-39E5BA16947A}.Release|ARM32.Build.0 = Release|Any CPU
 		{FEB58997-5152-40B7-8237-39E5BA16947A}.Release|x64.ActiveCfg = Release|Any CPU
 		{FEB58997-5152-40B7-8237-39E5BA16947A}.Release|x64.Build.0 = Release|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Debug|x64.Build.0 = Debug|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Release|ARM32.Build.0 = Release|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Release|x64.ActiveCfg = Release|Any CPU
+		{5CC21692-2F9F-4E65-AF3D-A49ADB5F99C8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

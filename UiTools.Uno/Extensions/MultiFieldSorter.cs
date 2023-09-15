@@ -9,7 +9,7 @@ namespace UiTools.Uno.Extensions
 
     public static class MultiFieldSorter
     {
-        public static Func<IQueryable<T>, IOrderedQueryable<T>> MakeSortingFunc<T>(IEnumerable<SortingCondition> conditions)
+        private static Func<IQueryable<T>, IOrderedQueryable<T>> MakeSortingFunc<T>(IEnumerable<SortingCondition> conditions)
         {
             var parameter = Expression.Parameter(typeof(T), "p");
             var source = Expression.Parameter(typeof(IQueryable<T>), "source");
@@ -22,7 +22,10 @@ namespace UiTools.Uno.Extensions
                 var keySelector = Expression.Lambda(propertyExpression, parameter);
 
                 sortExpression = sortExpression == null
-                    ? Expression.Call(typeof(Queryable), "OrderBy", new[] { typeof(T), propertyExpression.Type }, sourceExpression, keySelector)
+                    //? Expression.Call(typeof(Queryable), "OrderBy", new[] { typeof(T), propertyExpression.Type }, sourceExpression, keySelector)
+                    ? condition.IsDescending
+                        ? Expression.Call(typeof(Queryable), "OrderByDescending", new[] { typeof(T), propertyExpression.Type }, sourceExpression, keySelector)
+                        : Expression.Call(typeof(Queryable), "OrderBy", new[] { typeof(T), propertyExpression.Type }, sourceExpression, keySelector)
                     : condition.IsDescending
                         ? Expression.Call(typeof(Queryable), "ThenByDescending", new[] { typeof(T), propertyExpression.Type }, sortExpression, keySelector)
                         : Expression.Call(typeof(Queryable), "ThenBy", new[] { typeof(T), propertyExpression.Type }, sortExpression, keySelector);
@@ -35,7 +38,7 @@ namespace UiTools.Uno.Extensions
             return orderFunc.Compile();
         }
 
-        public static IEnumerable<T> Sort<T>(this IEnumerable<T> @this, IEnumerable<SortingCondition> conditions)
+        public static IEnumerable<T> MultiSort<T>(this IEnumerable<T> @this, IEnumerable<SortingCondition> conditions)
         {
             if (!conditions.Any()) return @this;
             var sortedFunc = MakeSortingFunc<T>(conditions);

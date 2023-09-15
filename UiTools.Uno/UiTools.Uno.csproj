@@ -7,6 +7,12 @@
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="CustomControls\CloseButton.xaml" />
+    <None Remove="Styles\CommonStyles.xaml" />
+    <None Remove="Views\SortedByPanel.xaml" />
+    <None Remove="Views\SortedByText.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="Uno.WinUI" />
   </ItemGroup>
@@ -16,6 +22,26 @@
     </ItemGroup>
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'">
         <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Views\SortedByPanel.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Views\SortedByText.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="Styles\CommonStyles.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="CustomControls\CloseButton.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
 
     <Choose>

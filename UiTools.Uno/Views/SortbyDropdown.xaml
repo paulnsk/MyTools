@@ -8,63 +8,64 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"    
 	xmlns:viewmodels="using:UiTools.Uno.ViewModels"
+    xmlns:kustomktrls="using:UiTools.Uno.CustomControls"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400"
-    Name="TheSortingDropdown"
+    d:DesignWidth="400"    
     >
 
+    
 
-    <UserControl.Resources>        
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
-        <Style x:Key="ShrinkableCheckBox" TargetType="CheckBox">
-            <Setter Property="MinWidth" Value="0"/>
-            <Setter Property="MinHeight" Value="0"/>
-        </Style>
-
-        <Style x:Key="LittleGrayTextBlock" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="9"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Foreground" Value="{ThemeResource SystemColorControlAccentBrush}"/>
-        </Style>
-
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///UiTools.Uno/Styles/CommonStyles.xaml" />               
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     
-    <DropDownButton Content="Sorting" Margin="30">
+    <DropDownButton Content="Sort by">
         <DropDownButton.Flyout >
-            <Flyout Placement="Bottom">
-                <ListView ItemsSource="{x:Bind SortableFields, Mode=OneWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="viewmodels:SortableFieldViewModel">
-                            <controls:DockPanel LastChildFill="True" ToolTipService.ToolTip="{Binding ArrowToolTip, Mode=OneWay}" >
-                                <CheckBox 
+            <Flyout Placement="Bottom" x:Name="TheFlyout">
+                <Flyout.FlyoutPresenterStyle>
+                    <Style TargetType="FlyoutPresenter">
+                        <Setter Property="Padding" Value="0"></Setter>
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <Grid>
+                    <kustomktrls:CloseButton Name="BtnCloseFlyout" Click="BtnCloseFlyout_Click" Margin="3" VerticalAlignment="Top" HorizontalAlignment="Right"></kustomktrls:CloseButton>                                   
+                    <ListView Margin="16" ItemsSource="{x:Bind SortableFields, Mode=OneWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:SortableFieldVm">
+                                <controls:DockPanel LastChildFill="True" >
+                                    <CheckBox 
                                         Style="{StaticResource ShrinkableCheckBox}" 
                                         controls:DockPanel.Dock="Left" 
                                         IsChecked="{Binding IsChecked, Mode=TwoWay}"                                        
                                         />
-                                <!--<FontIcon controls:DockPanel.Dock="Right" Glyph="{Binding IsDescending, Converter={StaticResource IsDescendingBoolToArrowGlyphConverter}, Mode=TwoWay}"/>-->
-                                <CheckBox Style="{StaticResource ShrinkableCheckBox}"  controls:DockPanel.Dock="Right" IsChecked="{Binding IsDescending, Mode=TwoWay}">
-                                    <CheckBox.Template>
-                                        <ControlTemplate TargetType="CheckBox">
-                                            <Viewbox VerticalAlignment="Center" Margin="10,5,5,5" Width="16" Height="16">                                                
-                                                <FontIcon FontWeight="ExtraBold" Glyph="{Binding ArrowGlyph, Mode=OneWay}"/>
-                                            </Viewbox>
-                                        </ControlTemplate>
-                                    </CheckBox.Template>
-                                </CheckBox>
-                                <StackPanel Margin="5,0,0,0" Orientation="Horizontal" controls:DockPanel.Dock="Right" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock Style="{StaticResource LittleGrayTextBlock}">(</TextBlock>
-                                    <TextBlock Style="{StaticResource LittleGrayTextBlock}" Text="{Binding Order}"></TextBlock>
-                                    <TextBlock Style="{StaticResource LittleGrayTextBlock}">)</TextBlock>
-                                </StackPanel>
+                                    <CheckBox Style="{StaticResource ShrinkableCheckBox}"  controls:DockPanel.Dock="Right" IsChecked="{Binding IsDescending, Mode=TwoWay}" ToolTipService.ToolTip="Click to change sorting direction">
+                                        <CheckBox.Template>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <!--<Viewbox VerticalAlignment="Center" Margin="10,5,5,5" Width="22" Height="22">-->
+                                                <!--<FontIcon FontWeight="ExtraBold" Glyph="{Binding ArrowGlyph, Mode=OneWay}"/>-->
+                                                <TextBlock FontSize="22" Margin="10,5,5,5" FontWeight="ExtraBold" Text="{Binding ArrowGlyph, Mode=OneWay}"/>
+                                                <!--</Viewbox>-->
+                                            </ControlTemplate>
+                                        </CheckBox.Template>
+                                    </CheckBox>
+                                    <StackPanel Margin="5,0,0,0" Orientation="Horizontal" controls:DockPanel.Dock="Right" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock Style="{StaticResource LittleGrayTextBlock}">(</TextBlock>
+                                        <TextBlock Style="{StaticResource LittleGrayTextBlock}" Text="{Binding Order}"></TextBlock>
+                                        <TextBlock Style="{StaticResource LittleGrayTextBlock}">)</TextBlock>
+                                    </StackPanel>
 
-                                <TextBlock VerticalAlignment="Center" controls:DockPanel.Dock="Left" Text="{Binding DisplayName, Mode=OneWay}"/>
-                            </controls:DockPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-
-                </ListView>
+                                    <TextBlock VerticalAlignment="Center" controls:DockPanel.Dock="Left" Text="{Binding DisplayName, Mode=OneWay}"/>
+                                </controls:DockPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
             </Flyout>
         </DropDownButton.Flyout>
     </DropDownButton>

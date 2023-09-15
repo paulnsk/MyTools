@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MediaCycler.Views.MediaContentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MediaCycler.Views"
+             xmlns:forXaml="clr-namespace:MediaCycler.ForXaml"
+             xmlns:viewModels="clr-namespace:MediaCycler.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance viewModels:MediaContent, IsDesignTimeCreatable=True}"
+             >
+    <UserControl.Resources>
+        <forXaml:StringEmptyToVisibilityCollapsedConverter x:Key="StringEmptyToVisibilityCollapsedConverter"></forXaml:StringEmptyToVisibilityCollapsedConverter>
+        <forXaml:StringEmptyToVisibilityCollapsedReverseConverter x:Key="StringEmptyToVisibilityCollapsedReverseConverter"></forXaml:StringEmptyToVisibilityCollapsedReverseConverter>
+    </UserControl.Resources>
+
+    <Grid>
+        <TextBlock 
+            TextWrapping="Wrap" Foreground="Gray" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" 
+            Text="{Binding FallbackText, Mode=OneWay}" 
+            Visibility="{Binding FallbackText, Converter={StaticResource StringEmptyToVisibilityCollapsedConverter}}"
+        />
+        <Grid Name="ContentGrid" Visibility="{Binding FallbackText, Converter={StaticResource StringEmptyToVisibilityCollapsedReverseConverter}}"></Grid>
+
+    </Grid>
+</UserControl>

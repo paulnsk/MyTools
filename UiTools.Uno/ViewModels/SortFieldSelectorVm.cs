@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using UiTools.Uno.Models;
 
@@ -11,14 +12,14 @@ namespace UiTools.Uno.ViewModels
     /// Implements viewmodel for list of sortable fields to be bound to SortByDropdown flyout or similar colelction view
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public partial class SortableFieldsViewModel<T> : ObservableObject
+    public partial class SortFieldSelectorVm<T> : ObservableObject
     {
 
-        public SortableFieldsViewModel((string fieldName, string displayName)[] nameMappings, string[] skipFields)
+        public SortFieldSelectorVm((string fieldName, string displayName)[] nameMappings, string[] skipFields)
         {
             foreach (var prop in typeof(T).GetProperties())
             {
-                if (!skipFields.Contains(prop.Name)) AddField(new SortableFieldViewModel(prop.Name)
+                if (!skipFields.Contains(prop.Name)) AddField(new SortableFieldVm(prop.Name)
                 {                    
                     DisplayName = nameMappings.FirstOrDefault(x => x.fieldName == prop.Name).displayName ?? prop.Name,
                 });
@@ -26,15 +27,21 @@ namespace UiTools.Uno.ViewModels
         }
 
         [ObservableProperty]
-        private ObservableCollection<SortableFieldViewModel> _sortableFields = new ObservableCollection<SortableFieldViewModel>();
+        private ObservableCollection<SortableFieldVm> _sortableFields = new ObservableCollection<SortableFieldVm>();
+
+        [ObservableProperty]
+        private ObservableCollection<SortableFieldVm> _selectedFields = new ObservableCollection<SortableFieldVm>();
+
+        public IEnumerable<SortingCondition> SortingConditions => SortableFieldsAsSortingConditions();
+
 
         private void ReorderFieldCollection()
         {
             var ordered = SortableFields.OrderBy(x => x.IsChecked ? x.Order : int.MaxValue).ThenBy(x => x.DisplayName).ToList();
-            SortableFields = new ObservableCollection<SortableFieldViewModel>(ordered);
+            SortableFields = new ObservableCollection<SortableFieldVm>(ordered);
         }
 
-        private void AddField(SortableFieldViewModel sfvm)
+        private void AddField(SortableFieldVm sfvm)
         {            
             sfvm.IsCheckedChanged += Sfvm_IsCheckedChanged;
             sfvm.IsDescendingChanged += Sfvm_IsDescendingChanged;
@@ -42,11 +49,16 @@ namespace UiTools.Uno.ViewModels
         }
 
 
+        private List<SortableFieldVm> CheckedFields(SortableFieldVm except = default)
+        {
+            return SortableFields.Where(x => x.IsChecked && x != except).OrderBy(x => x.Order).ToList();
+        }
+
         private void Sfvm_IsCheckedChanged(object? sender, EventArgs e)
         {
-            if (sender is not SortableFieldViewModel sfvm) return;
+            if (sender is not SortableFieldVm sfvm) return;
 
-            var previouslyCheckedFields = SortableFields.Where(x => x.IsChecked && x != sfvm).OrderBy(x => x.Order).ToList();
+            var previouslyCheckedFields = CheckedFields(except: sfvm);
 
             //removing gaps in order sequence due to unchecking of items
             for (int i = 0; i < previouslyCheckedFields.Count; i++)
@@ -63,19 +75,24 @@ namespace UiTools.Uno.ViewModels
             }
 
             ReorderFieldCollection();
+            
+            SelectedFields = new ObservableCollection<SortableFieldVm>(CheckedFields());
+
+            //todo поднять это над  SelectedFields =
             FireSortingConditionsChanged();
+
         }
 
         private void Sfvm_IsDescendingChanged(object? sender, EventArgs e)
         {
-            if (sender is not SortableFieldViewModel sfvm) return;
+            if (sender is not SortableFieldVm sfvm) return;
             if (!sfvm.IsChecked) return;
             FireSortingConditionsChanged();
         }
 
         private void FireSortingConditionsChanged()
         {
-            SortingConditionsChanged?.Invoke(this, new SortingConditionsChangedEventArgs(SortableFieldsAsSortingConditions()));
+            SortingConditionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private List<SortingCondition> SortableFieldsAsSortingConditions()
@@ -83,7 +100,14 @@ namespace UiTools.Uno.ViewModels
             return SortableFields.Where(x => x.IsChecked).OrderBy(x => x.Order).Select(x => new SortingCondition(x.FieldName) { IsDescending = x.IsDescending }).ToList();
         }
 
-        public event EventHandler<SortingConditionsChangedEventArgs>? SortingConditionsChanged;
+        public event EventHandler? SortingConditionsChanged;
 
+        public void Check(string fieldName, bool isDescending)
+        {
+            var field = SortableFields.FirstOrDefault(x => x.FieldName == fieldName);
+            if (field == null) return;
+            field.IsDescending = isDescending;
+            field.IsChecked = true;
+        }
     }
 }
