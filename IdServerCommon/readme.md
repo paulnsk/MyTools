@@ -1,0 +1,1 @@
+﻿Contains definitions used by both server and client
