@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace MyTools
@@ -36,5 +37,14 @@ namespace MyTools
         {
             return Path.Combine(ExeDir(), fileName);
         }
+
+        public static void EnsureDir(string filePath)
+        {
+            var dirPath = Path.GetDirectoryName(filePath);
+            if (dirPath.IsBlank()) throw new Exception($"{nameof(dirPath)} empty in {nameof(EnsureDir)}");
+            if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath!);
+            if (!Directory.Exists(dirPath)) throw new Exception($" Unable to create directory {dirPath}");
+        }
+
     }
 }
