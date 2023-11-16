@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
-namespace AspNetHelpers
+namespace AspNetHelpers.Helpers
 {
     public static class DiHelpers
     {
