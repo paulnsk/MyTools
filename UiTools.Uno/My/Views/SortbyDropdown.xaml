@@ -1,0 +1,74 @@
+﻿<UserControl
+    x:Class="UiTools.Uno.My.Views.SortbyDropdown"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"    
+	xmlns:viewmodels="using:UiTools.Uno.My.ViewModels"
+	xmlns:customControls="using:UiTools.Uno.My.CustomControls"
+	mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400"    
+    >
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/CommonStyles.xaml" />
+                <!--Так тоже работает, но решарпер выебывается: <ResourceDictionary Source="ms-appx:///UiTools.Uno/My/Styles/CommonStyles.xaml" /> -->
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DropDownButton Content="Sort by">
+        <DropDownButton.Flyout >
+            <Flyout Placement="Bottom" x:Name="TheFlyout">
+                <Flyout.FlyoutPresenterStyle>
+                    <Style TargetType="FlyoutPresenter">
+                        <Setter Property="Padding" Value="0"></Setter>
+                        <!-- scrolling disabled to fix android issue: https://github.com/unoplatform/uno/issues/14764 -->
+                        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+                        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                    </Style>
+                </Flyout.FlyoutPresenterStyle>
+                <Grid>
+                    <customControls:CloseButton Name="BtnCloseFlyout" Click="BtnCloseFlyout_Click" Margin="3" VerticalAlignment="Top" HorizontalAlignment="Right"></customControls:CloseButton>                                   
+                    <ListView Margin="16" ItemsSource="{x:Bind SortableFields, Mode=OneWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:SortableFieldVm">
+                                <controls:DockPanel LastChildFill="True" >
+                                    <CheckBox 
+                                        Style="{StaticResource ShrinkableCheckBox}" 
+                                        controls:DockPanel.Dock="Left" 
+                                        IsChecked="{Binding IsChecked, Mode=TwoWay}"                                        
+                                        />
+                                    <CheckBox Style="{StaticResource ShrinkableCheckBox}"  controls:DockPanel.Dock="Right" IsChecked="{Binding IsDescending, Mode=TwoWay}" ToolTipService.ToolTip="Click to change sorting direction">
+                                        <CheckBox.Template>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <!--<Viewbox VerticalAlignment="Center" Margin="10,5,5,5" Width="22" Height="22">-->
+                                                <!--<FontIcon FontWeight="ExtraBold" Glyph="{Binding ArrowGlyph, Mode=OneWay}"/>-->
+                                                <TextBlock FontSize="22" Margin="10,5,5,5" FontWeight="ExtraBold" Text="{Binding ArrowGlyph, Mode=OneWay}"/>
+                                                <!--</Viewbox>-->
+                                            </ControlTemplate>
+                                        </CheckBox.Template>
+                                    </CheckBox>
+                                    <StackPanel Margin="5,0,0,0" Orientation="Horizontal" controls:DockPanel.Dock="Right" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock Style="{StaticResource LittleGrayTextBlock}">(</TextBlock>
+                                        <TextBlock Style="{StaticResource LittleGrayTextBlock}" Text="{Binding Order}"></TextBlock>
+                                        <TextBlock Style="{StaticResource LittleGrayTextBlock}">)</TextBlock>
+                                    </StackPanel>
+
+                                    <TextBlock VerticalAlignment="Center" controls:DockPanel.Dock="Left" Text="{Binding DisplayName, Mode=OneWay}"/>
+                                </controls:DockPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Flyout>
+        </DropDownButton.Flyout>
+    </DropDownButton>
+
+</UserControl>

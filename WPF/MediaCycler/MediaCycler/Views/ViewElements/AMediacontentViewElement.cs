@@ -5,7 +5,7 @@ using MediaCycler.ViewModels;
 
 namespace MediaCycler.Views.ViewElements
 {
-    internal abstract class AMediacontentViewElement:IMediacontentViewElement
+    internal abstract class AMediacontentViewElement : IMediacontentViewElement
     {
         protected readonly MediaContent _mediaContent;
         public abstract FrameworkElement FrameworkElement { get; }

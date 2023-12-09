@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MediaCycler.ViewModels;
 
@@ -8,7 +9,7 @@ namespace MediaCycler.Views.ViewElements
 {
     internal class ImageView : AMediacontentViewElement
     {
-        
+
         private readonly Image _image = new Image();
         public override FrameworkElement FrameworkElement => _image;
 
@@ -21,6 +22,7 @@ namespace MediaCycler.Views.ViewElements
         {
             _image.BeginInit();
             _image.Source = new BitmapImage(new Uri(_mediaContent.Location));
+            if (_mediaContent.StretchToFill) _image.Stretch = Stretch.Fill;
             _image.EndInit();
         }
 

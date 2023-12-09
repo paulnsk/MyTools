@@ -38,10 +38,17 @@ namespace MyTools
             return Path.Combine(ExeDir(), fileName);
         }
 
-        public static void EnsureDir(string filePath)
+        public static void EnsureCreateFileDir(string filePath)
         {
             var dirPath = Path.GetDirectoryName(filePath);
-            if (dirPath.IsBlank()) throw new Exception($"{nameof(dirPath)} empty in {nameof(EnsureDir)}");
+            if (dirPath.IsBlank()) throw new Exception($"{nameof(dirPath)} empty in {nameof(EnsureCreateFileDir)}");
+            EnsureCreateDir(dirPath!);
+        }
+		
+        public static void EnsureCreateDir(string filePath)
+        {
+            var dirPath = Path.GetDirectoryName(filePath);
+            if (dirPath.IsBlank()) throw new Exception($"{nameof(dirPath)} empty in {nameof(EnsureCreateFileDir)}");
             if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath!);
             if (!Directory.Exists(dirPath)) throw new Exception($" Unable to create directory {dirPath}");
         }

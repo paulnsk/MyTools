@@ -1,0 +1,12 @@
+@HelpersDemoTest_HostAddress = https://localhost:7097
+
+###
+
+GET {{HelpersDemoTest_HostAddress}}/AspNetHelpers/test/ShowLogurlMiddlewareConfig
+
+###
+
+GET {{HelpersDemoTest_HostAddress}}/AspNetHelpers/test/FireException
+
+###
+

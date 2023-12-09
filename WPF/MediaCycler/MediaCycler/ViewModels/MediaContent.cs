@@ -52,6 +52,11 @@ namespace MediaCycler.ViewModels
         public string Location { get; set; }
 
         /// <summary>
+        /// Applies Stretch = Stretch.Fill (images only)
+        /// </summary>
+        public bool StretchToFill { get; set; }
+
+        /// <summary>
         /// Optional error message to display when actual content cannot be shown
         /// </summary>
         public string FallbackText { get; set; }

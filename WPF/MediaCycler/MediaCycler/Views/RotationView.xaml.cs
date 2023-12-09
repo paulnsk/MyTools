@@ -45,7 +45,12 @@ namespace MediaCycler.Views
 
         public void Start()
         {
-            Timer.Start();
+            //forcing next item to start immediately
+            // (otherwise, if paused and restarted within the current item's duration time,
+            // the control would show empty screen until duration time fully expires)
+            ItemStartedAt = DateTime.MinValue;
+
+            if (!Timer.IsEnabled) Timer.Start();
         }
 
         public void Pause()
@@ -57,7 +62,7 @@ namespace MediaCycler.Views
         private bool NextIsReady()
         {
             if (Items.Count <= 0) return false;
-            var currentItem = CurreneItem();
+            var currentItem = CurrentItem();
             if (currentItem == null) return true;
             return (DateTime.Now - ItemStartedAt).TotalMilliseconds > currentItem.DurationMilliseconds;
         }
@@ -69,11 +74,11 @@ namespace MediaCycler.Views
                 CurrentItemIndex++;
                 if (CurrentItemIndex >= Items.Count) CurrentItemIndex = 0;
                 ItemStartedAt = DateTime.Now;
-                Tv.CurrentFrame = CurreneItem().MediaContentView;
+                Tv.CurrentFrame = CurrentItem().MediaContentView;
             }
         }
 
-        private RotationViewItem CurreneItem() => CurrentItemIndex > -1 ? Items[CurrentItemIndex] : null;
+        private RotationViewItem CurrentItem() => CurrentItemIndex > -1 ? Items[CurrentItemIndex] : null;
 
         private void Timer_Tick(object sender, EventArgs e)
         {
