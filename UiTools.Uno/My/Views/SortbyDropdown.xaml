@@ -8,6 +8,7 @@
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"    
 	xmlns:viewmodels="using:UiTools.Uno.My.ViewModels"
 	xmlns:customControls="using:UiTools.Uno.My.CustomControls"
+	xmlns:temporary="using:UiTools.Uno.My.Temporary"
 	mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400"    
@@ -23,6 +24,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
+    
     <DropDownButton Content="Sort by">
         <DropDownButton.Flyout >
             <Flyout Placement="Bottom" x:Name="TheFlyout">
@@ -39,30 +41,35 @@
                     <ListView Margin="16" ItemsSource="{x:Bind SortableFields, Mode=OneWay}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="viewmodels:SortableFieldVm">
-                                <controls:DockPanel LastChildFill="True" >
-                                    <CheckBox 
-                                        Style="{StaticResource ShrinkableCheckBox}" 
-                                        controls:DockPanel.Dock="Left" 
-                                        IsChecked="{Binding IsChecked, Mode=TwoWay}"                                        
-                                        />
-                                    <CheckBox Style="{StaticResource ShrinkableCheckBox}"  controls:DockPanel.Dock="Right" IsChecked="{Binding IsDescending, Mode=TwoWay}" ToolTipService.ToolTip="Click to change sorting direction">
-                                        <CheckBox.Template>
-                                            <ControlTemplate TargetType="CheckBox">
-                                                <!--<Viewbox VerticalAlignment="Center" Margin="10,5,5,5" Width="22" Height="22">-->
-                                                <!--<FontIcon FontWeight="ExtraBold" Glyph="{Binding ArrowGlyph, Mode=OneWay}"/>-->
-                                                <TextBlock FontSize="22" Margin="10,5,5,5" FontWeight="ExtraBold" Text="{Binding ArrowGlyph, Mode=OneWay}"/>
-                                                <!--</Viewbox>-->
-                                            </ControlTemplate>
-                                        </CheckBox.Template>
-                                    </CheckBox>
-                                    <StackPanel Margin="5,0,0,0" Orientation="Horizontal" controls:DockPanel.Dock="Right" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition>Auto</ColumnDefinition>
+                                        <ColumnDefinition>*</ColumnDefinition>
+                                        <ColumnDefinition>Auto</ColumnDefinition>
+                                        <ColumnDefinition>Auto</ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <CheckBox Grid.Column="0" 
+                                              Style="{StaticResource ShrinkableCheckBox}" 
+                                              IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                    />
+                                    <TextBlock Grid.Column="1" VerticalAlignment="Center" controls:DockPanel.Dock="Left" Text="{Binding DisplayName, Mode=OneWay}"/>
+                                    
+                                    <StackPanel Grid.Column="2" Margin="5,0,0,0" Orientation="Horizontal" controls:DockPanel.Dock="Right" Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <TextBlock Style="{StaticResource LittleGrayTextBlock}">(</TextBlock>
                                         <TextBlock Style="{StaticResource LittleGrayTextBlock}" Text="{Binding Order}"></TextBlock>
                                         <TextBlock Style="{StaticResource LittleGrayTextBlock}">)</TextBlock>
                                     </StackPanel>
 
-                                    <TextBlock VerticalAlignment="Center" controls:DockPanel.Dock="Left" Text="{Binding DisplayName, Mode=OneWay}"/>
-                                </controls:DockPanel>
+                                    <CheckBox Grid.Column="3" temporary:MyFrameworkElementExtensions.Cursor="Hand" Style="{StaticResource ShrinkableCheckBox}" IsChecked="{Binding IsDescending, Mode=TwoWay}" ToolTipService.ToolTip="Click to change sorting direction">
+                                        <CheckBox.Template>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <TextBlock FontSize="22" Margin="10,5,5,5" FontWeight="ExtraBold" Text="{Binding ArrowGlyph, Mode=OneWay}"/>
+                                            </ControlTemplate>
+                                        </CheckBox.Template>
+                                    </CheckBox>
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

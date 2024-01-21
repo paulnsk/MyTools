@@ -15,7 +15,7 @@ namespace CoreAppHelpers.Helpers
         {
             var optionsBuilder = services.AddOptions<T>()
                 .BindConfiguration(typeof(T).Name);
-            //todo акшен вызывается больше одного раза. Надо б подебажить, хотя вроде вреда не причиняет
+            //todo_ акшен вызывается больше одного раза. Надо б подебажить, хотя вроде вреда не причиняет
             if (configAction != null) optionsBuilder.Configure(configAction);
             optionsBuilder.ValidateDataAnnotations();
             return services.GetJustRegisteredService<IOptions<T>>().Value;

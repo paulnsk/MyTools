@@ -135,14 +135,14 @@ namespace MyTools
         /// Generates a paragraph of random characters which resembles a meaningful text
         /// </summary>
         /// <param name="minLength"></param>
-        /// <param name="MaxLength"></param>
+        /// <param name="maxLength"></param>
         /// <returns></returns>
-        public static string RandomText(int minLength, int MaxLength)
+        public static string RandomText(int minLength, int maxLength)
         {
             var sb = new StringBuilder();
             var mode = CapMode.FirstCap;
 
-            var length = _rnd.Next(MaxLength - minLength + 1);
+            var length = minLength + _rnd.Next(maxLength - minLength + 1);
 
             while (sb.Length < length)
             {

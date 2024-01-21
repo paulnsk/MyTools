@@ -1,13 +1,8 @@
 ﻿namespace UiTools.Uno.My.Models
 {
-    public class SortingCondition
+    public class SortingCondition(string fieldName)
     {
-        public string FieldName { get; set; }
-
-        public SortingCondition(string fieldName)
-        {
-            FieldName = fieldName;
-        }
+        public string FieldName { get; set; } = fieldName;
 
         public bool IsDescending { get; set; }
 

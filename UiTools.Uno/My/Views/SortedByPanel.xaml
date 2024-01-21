@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:customControls="using:UiTools.Uno.My.CustomControls"
+    xmlns:temporary="using:UiTools.Uno.My.Temporary"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -33,7 +34,7 @@
                         </StackPanel>
                         <TextBlock VerticalAlignment="Center"  Text="{Binding DisplayName, Mode=OneWay}"/>
                         <!--<TextBlock Foreground="Blue" FontSize="18" Margin="4,0" FontWeight="ExtraBold" Text="{Binding IsDescending, Mode=OneWay}"/>-->
-                        <CheckBox Style="{StaticResource ShrinkableCheckBox}" IsChecked="{Binding IsDescending, Mode=TwoWay}" ToolTipService.ToolTip="Click to change sorting direction">
+                        <CheckBox Style="{StaticResource ShrinkableCheckBox}" temporary:MyFrameworkElementExtensions.Cursor="Hand" IsChecked="{Binding IsDescending, Mode=TwoWay}" ToolTipService.ToolTip="Click to change sorting direction">
                             <CheckBox.Template>
                                 <ControlTemplate TargetType="CheckBox">                                    
                                         <!--<Viewbox VerticalAlignment="Center" >-->

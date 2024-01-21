@@ -9,11 +9,15 @@
   <ItemGroup>
     <None Remove="My\CustomControls\CloseButton.xaml" />
     <None Remove="My\Styles\CommonStyles.xaml" />
+    <None Remove="My\Views\ErrorDialog.xaml" />
+    <None Remove="My\Views\InputDialog.xaml" />
     <None Remove="My\Views\SortedByPanel.xaml" />
     <None Remove="My\Views\SortedByText.xaml" />
+    <None Remove="My\Views\StackableMessageView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="System.Net.Http" />
     <PackageReference Include="System.Text.RegularExpressions" />
     <PackageReference Include="System.Threading.Tasks.Dataflow" />
@@ -80,6 +84,21 @@
     </ItemGroup>
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'windows'">
         <PackageReference Include="Uno.CommunityToolkit.WinUI.UI.Controls" />
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="My\Views\StackableMessageView.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="My\Views\InputDialog.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
+    </ItemGroup>
+    <ItemGroup>
+      <Page Update="My\Views\ErrorDialog.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </Page>
     </ItemGroup>
     <ItemGroup>
       <Page Update="My\Views\SortedByPanel.xaml">

@@ -30,7 +30,7 @@ namespace UiTools.Uno.My.ViewModels
             set { }
         }
 
-
+        //todo on some androids the glyph is missing. Need an svg
         public string ArrowGlyph
         {
             //getter only property does not want to be bindable            

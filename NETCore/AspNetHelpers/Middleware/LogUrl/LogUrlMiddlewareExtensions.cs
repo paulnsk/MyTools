@@ -12,13 +12,9 @@ namespace AspNetHelpers.Middleware.LogUrl
             return services;
         }
 
-        public static IApplicationBuilder UseLogUrl(this IApplicationBuilder app, Action<LogUrlMiddlewareConfig>? configAction = default)
+        public static IApplicationBuilder UseLogUrl(this IApplicationBuilder app)
         {
-            var config = app.ApplicationServices.GetService<IOptions<LogUrlMiddlewareConfig>>()?.Value ?? new LogUrlMiddlewareConfig();
-
-            configAction?.Invoke(config);
-
-            return app.UseMiddleware<LogUrlMiddleware>(config);
+            return app.UseMiddleware<LogUrlMiddleware>();
         }
     }
 }

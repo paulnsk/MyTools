@@ -26,17 +26,17 @@ namespace UiTools.Uno.My.ViewModels
         }
 
         [ObservableProperty]
-        private ObservableCollection<SortableFieldVm> _sortableFields = new ObservableCollection<SortableFieldVm>();
+        private ObservableCollection<SortableFieldVm> _sortableFields = new();
 
         [ObservableProperty]
-        private ObservableCollection<SortableFieldVm> _selectedFields = new ObservableCollection<SortableFieldVm>();
+        private ObservableCollection<SortableFieldVm> _selectedFields = new();
 
         public IEnumerable<SortingCondition> SortingConditions => SortableFieldsAsSortingConditions();
 
 
         private void ReorderFieldCollection()
         {
-            var ordered = Enumerable.OrderBy<SortableFieldVm, int>(SortableFields, x => x.IsChecked ? x.Order : int.MaxValue).ThenBy(x => x.DisplayName).ToList();
+            var ordered = SortableFields.OrderBy(x => x.IsChecked ? x.Order : int.MaxValue).ThenBy(x => x.DisplayName).ToList();
             SortableFields = new ObservableCollection<SortableFieldVm>(ordered);
         }
 
@@ -50,7 +50,7 @@ namespace UiTools.Uno.My.ViewModels
 
         private List<SortableFieldVm> CheckedFields(SortableFieldVm except = default)
         {
-            return Enumerable.Where<SortableFieldVm>(SortableFields, x => x.IsChecked && x != except).OrderBy(x => x.Order).ToList();
+            return SortableFields.Where(x => x.IsChecked && x != except).OrderBy(x => x.Order).ToList();
         }
 
         private void Sfvm_IsCheckedChanged(object? sender, EventArgs e)
@@ -96,17 +96,26 @@ namespace UiTools.Uno.My.ViewModels
 
         private List<SortingCondition> SortableFieldsAsSortingConditions()
         {
-            return Enumerable.Where<SortableFieldVm>(SortableFields, x => x.IsChecked).OrderBy(x => x.Order).Select(x => new SortingCondition(x.FieldName) { IsDescending = x.IsDescending }).ToList();
+            return SortableFields.Where(x => x.IsChecked).OrderBy(x => x.Order).Select(x => new SortingCondition(x.FieldName) { IsDescending = x.IsDescending }).ToList();
         }
 
         public event EventHandler? SortingConditionsChanged;
 
         public void Check(string fieldName, bool isDescending)
         {
-            var field = Enumerable.FirstOrDefault<SortableFieldVm>(SortableFields, x => x.FieldName == fieldName);
+            var field = SortableFields.FirstOrDefault(x => x.FieldName == fieldName);
             if (field == null) return;
             field.IsDescending = isDescending;
             field.IsChecked = true;
+        }
+
+        public void SetSortingConditions(IEnumerable<SortingCondition>? conditions)
+        {
+            if (conditions == null) return;
+            foreach (var condition in conditions)
+            {
+                Check(condition.FieldName, condition.IsDescending);
+            }
         }
     }
 }
