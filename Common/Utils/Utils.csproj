@@ -1,11 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
-    <RootNamespace>MyTools</RootNamespace>
-    <Platforms>AnyCPU;x64</Platforms>
-	  <LangVersion>latest</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net452</TargetFrameworks>
+        <RootNamespace>MyTools</RootNamespace>
+        <Platforms>AnyCPU;x64;x86</Platforms>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="IndexRange" Version="1.0.3" />
+    </ItemGroup>
 
 
 </Project>

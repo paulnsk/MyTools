@@ -45,10 +45,9 @@ namespace MyTools
             EnsureCreateDir(dirPath!);
         }
 		
-        public static void EnsureCreateDir(string filePath)
+        public static void EnsureCreateDir(string dirPath)
         {
-            var dirPath = Path.GetDirectoryName(filePath);
-            if (dirPath.IsBlank()) throw new Exception($"{nameof(dirPath)} empty in {nameof(EnsureCreateFileDir)}");
+            if (dirPath.IsBlank()) throw new Exception($"{nameof(dirPath)} empty in {nameof(EnsureCreateDir)}");
             if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath!);
             if (!Directory.Exists(dirPath)) throw new Exception($" Unable to create directory {dirPath}");
         }

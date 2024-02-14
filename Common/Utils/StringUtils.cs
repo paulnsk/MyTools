@@ -59,6 +59,29 @@ namespace MyTools
                 .Reverse()
                 .ToArray());
         }
+	
+
+        public static string Ellipsize(this string @this, int? maxLength = 100)
+        {
+            if (maxLength == null) return @this;
+
+            const string ellipsis1 = "....( ";
+            const string ellipsis2 = " )....";
+            const int ending = 5;
+            const string text = " chars skipped";
+            var length = @this.Length;
+            var lengthLength = length.ToString().Length;
+
+            var extraChars = ellipsis1.Length + ellipsis2.Length + text.Length + lengthLength;
+
+            if (maxLength < extraChars + ending + 1) return @this;
+            if (length <= maxLength) return @this;
+
+            var before = @this[..(maxLength.Value - ending - extraChars)];
+            var after = @this[(length - ending)..];
+
+            return $"{before}{ellipsis1}{length - ending - extraChars}{text}{ellipsis2}{after}";
+        }
 
     }
 }
