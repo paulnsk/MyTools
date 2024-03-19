@@ -5,20 +5,23 @@ namespace CoreAppHelpers.Helpers
 {
     public static class DiHelpers
     {
-        public static T GetJustRegisteredService<T>(this IServiceCollection services) where T : class
+        //Use with care as this may lead to services being unexpectedly duplicated
+        private static T GetJustRegisteredService<T>(this IServiceCollection services) where T : class
         {
-            return services.BuildServiceProvider().GetRequiredService<T>();
+            using var provider = services.BuildServiceProvider();
+            return provider.GetRequiredService<T>();
         }
 
-
-        public static T AddConfigOptions<T>(this IServiceCollection services, Action<T>? configAction = default) where T : class
+        public static void AddConfigOptions<T>(this IServiceCollection services, Action<T>? configAction = default) where T : class
         {
-            var optionsBuilder = services.AddOptions<T>()
-                .BindConfiguration(typeof(T).Name);
+            var optionsBuilder = services.AddOptions<T>().BindConfiguration(typeof(T).Name).ValidateDataAnnotations();
             //todo_ акшен вызывается больше одного раза. Надо б подебажить, хотя вроде вреда не причиняет
-            if (configAction != null) optionsBuilder.Configure(configAction);
-            optionsBuilder.ValidateDataAnnotations();
-            return services.GetJustRegisteredService<IOptions<T>>().Value;
+            if (configAction != null) services.Configure(configAction);
+        }
+
+        public static TConfig GetJustRegisteredConfig<TConfig>(this IServiceCollection services) where TConfig : class
+        {
+            return services.GetJustRegisteredService<IOptions<TConfig>>().Value;
         }
     }
 }

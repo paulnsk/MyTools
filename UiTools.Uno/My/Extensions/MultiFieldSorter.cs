@@ -24,11 +24,11 @@ namespace UiTools.Uno.My.Extensions
                 sortExpression = sortExpression == null
                     //? Expression.Call(typeof(Queryable), "OrderBy", new[] { typeof(T), propertyExpression.Type }, sourceExpression, keySelector)
                     ? condition.IsDescending
-                        ? Expression.Call(typeof(Queryable), "OrderByDescending", new[] { typeof(T), propertyExpression.Type }, sourceExpression, keySelector)
-                        : Expression.Call(typeof(Queryable), "OrderBy", new[] { typeof(T), propertyExpression.Type }, sourceExpression, keySelector)
+                        ? Expression.Call(typeof(Queryable), "OrderByDescending", [typeof(T), propertyExpression.Type], sourceExpression, keySelector)
+                        : Expression.Call(typeof(Queryable), "OrderBy", [typeof(T), propertyExpression.Type], sourceExpression, keySelector)
                     : condition.IsDescending
-                        ? Expression.Call(typeof(Queryable), "ThenByDescending", new[] { typeof(T), propertyExpression.Type }, sortExpression, keySelector)
-                        : Expression.Call(typeof(Queryable), "ThenBy", new[] { typeof(T), propertyExpression.Type }, sortExpression, keySelector);
+                        ? Expression.Call(typeof(Queryable), "ThenByDescending", [typeof(T), propertyExpression.Type], sortExpression, keySelector)
+                        : Expression.Call(typeof(Queryable), "ThenBy", [typeof(T), propertyExpression.Type], sortExpression, keySelector);
 
                 sourceExpression = sortExpression;
             }
