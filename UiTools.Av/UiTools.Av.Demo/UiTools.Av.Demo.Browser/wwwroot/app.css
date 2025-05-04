@@ -31,9 +31,12 @@
         background: #1b2a4e;
     }
 
-    .avalonia-splash h2 {
-        color: blue;
-    }
+        .avalonia-splash h2 {
+            color: blue;
+        }
+        .avalonia-splash h1 {
+            color: blue;
+        }
 
     .avalonia-splash a {
         color: white;

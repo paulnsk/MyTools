@@ -3,9 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using MyTools;
 using System;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
+using FluentAvalonia.UI.Controls;
 using UiTools.Av.Mvvm;
 using UiTools.Av.Services;
+using UiTools.Av.Views;
 
 namespace UiTools.Av.Demo.ViewModels;
 
@@ -39,13 +42,20 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isOption3Selected = false;
 
+    
     [RelayCommand]
     private void ButtonClick()
     {
-        // Example action: Log or update InputText
-        InputText = $"Clicked at {DateTime.Now}";
+        InputText = $"Button Clicked at {DateTime.Now}";
     }
 
+    [RelayCommand]
+    private void CloseButtonClick()
+    {
+        // Example action: Log or update InputText
+        InputText = $"Closebutton Clicked at {DateTime.Now}";
+    }
+    
 
 
     [ObservableProperty]
@@ -133,5 +143,26 @@ public partial class MainViewModel : ViewModelBase
     {
         LogText += "Clearing persons...\n";
         await Persons.Enqueue(() => Persons.Clear());
+    }
+
+
+    [RelayCommand]
+
+    private async Task ShowErrorDialog()
+    {
+        var errorContent = new MessageDialogContent
+        {
+            IconKind = MessageDialogIconKind.Question,
+            Message = "Это еррор, детка.\nВ рамках многомерной квантовой топологии ключевым аспектом анализа\n остаётся взаимодействие нелокальных когерентных структур,\n детерминирующих динамику флуктуационных модулей. Это особенно важно при рассмотрении дисперсионных свойств гиперболической метафизической среды, способной индуцировать спонтанную трансцендентную синхронизацию спектральных компонент."
+        };
+
+        var dialog = new ContentDialog
+        {
+            Title = "Error",
+            PrimaryButtonText = "ОК",
+            Content = errorContent
+        };
+
+        await dialog.ShowAsync();
     }
 }

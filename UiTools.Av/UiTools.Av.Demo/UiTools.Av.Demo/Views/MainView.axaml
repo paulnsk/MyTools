@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:UiTools.Av.Demo.ViewModels"
              xmlns:fa="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             xmlns:customControls="clr-namespace:UiTools.Av.CustomControls;assembly=UiTools.Av"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="UiTools.Av.Demo.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -19,18 +20,17 @@
       <!-- Page 1: Button and TextBox -->
       <TabItem Header="Input Page">
           <StackPanel Margin="10" Spacing="10">
+              <customControls:CloseButton Width="40" Height="40" Command="{Binding CloseButtonClickCommand}" ></customControls:CloseButton>
               <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-              <TextBox Text="{Binding InputText}" Watermark="Enter some text" Width="200"/>
+              <TextBox Text="{Binding InputText}" Watermark="Это текстбокс"/>
               <Button Content="Click Me" Command="{Binding ButtonClickCommand}" Width="100"/>
           </StackPanel>
       </TabItem>
 
       <!-- Page 2: RadioButtons -->
-      <TabItem Header="Options Page">
+      <TabItem Header="Dialogs">
           <StackPanel Margin="10" Spacing="10">
-              <RadioButton Content="Option 1" IsChecked="{Binding IsOption1Selected}" GroupName="Options"/>
-              <RadioButton Content="Option 2" IsChecked="{Binding IsOption2Selected}" GroupName="Options"/>
-              <RadioButton Content="Option 3" IsChecked="{Binding IsOption3Selected}" GroupName="Options"/>
+              <Button Content="Error dialog" Command="{Binding ShowErrorDialogCommand}" />
           </StackPanel>
       </TabItem>
 
