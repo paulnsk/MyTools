@@ -27,11 +27,36 @@
           </StackPanel>
       </TabItem>
 
-      <!-- Page 2: RadioButtons -->
       <TabItem Header="Dialogs">
-          <StackPanel Margin="10" Spacing="10">
-              <Button Content="Error dialog" Command="{Binding ShowErrorDialogCommand}" />
-          </StackPanel>
+          <Grid RowDefinitions="Auto,*">
+              
+              <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10" Spacing="20">
+                  
+                  <StackPanel Orientation="Horizontal" Spacing="10">
+                      <TextBlock Text="Direct:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                      <Button Content="Error dialog" Command="{Binding ShowErrorDialogCommand}" />
+                      <Button Content="Info dialog" Command="{Binding ShowInfoDialogCommand}" />
+                      <Button Content="Warning dialog" Command="{Binding ShowWarningDialogCommand}" />
+                      <Button Content="Question dialog" Command="{Binding ShowQuestionDialogCommand}" />
+                      <Button Content="Input dialog" Command="{Binding AskForInputCommand}" />
+                  </StackPanel>
+
+                  
+                  <StackPanel Orientation="Horizontal" Spacing="10">
+                      <TextBlock Text="Dialog service:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                      <Button Content="Error dialog" Command="{Binding ShowErrorDialogServiceCommand}" />
+                      <Button Content="Info dialog" Command="{Binding ShowInfoDialogServiceCommand}" />
+                      <Button Content="Warning dialog" Command="{Binding ShowWarningDialogServiceCommand}" />
+                      <Button Content="Question dialog" Command="{Binding ShowQuestionDialogServiceCommand}" />
+                      <Button Content="Input dialog" Command="{Binding AskForInputServiceCommand}" />
+                  </StackPanel>
+              </StackPanel>
+
+              <!-- Лог -->
+              <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                  <TextBox Text="{Binding LogText}" IsReadOnly="True" AcceptsReturn="True" VerticalContentAlignment="Top"/>
+              </ScrollViewer>
+          </Grid>
       </TabItem>
 
       <TabItem Header="MainThreadService">

@@ -152,7 +152,7 @@ public partial class MainViewModel : ViewModelBase
     {
         var errorContent = new MessageDialogContent
         {
-            IconKind = MessageDialogIconKind.Question,
+            IconKind = MessageDialogIconKind.Error,
             Message = "Это еррор, детка.\nВ рамках многомерной квантовой топологии ключевым аспектом анализа\n остаётся взаимодействие нелокальных когерентных структур,\n детерминирующих динамику флуктуационных модулей. Это особенно важно при рассмотрении дисперсионных свойств гиперболической метафизической среды, способной индуцировать спонтанную трансцендентную синхронизацию спектральных компонент."
         };
 
@@ -164,5 +164,127 @@ public partial class MainViewModel : ViewModelBase
         };
 
         await dialog.ShowAsync();
+    }
+
+
+    [RelayCommand]
+    private async Task ShowInfoDialog()
+    {
+        var infoContent = new MessageDialogContent
+        {
+            IconKind = MessageDialogIconKind.Info,
+            Message = "Это информационное сообщение.\nДетали: некоторые важные данные для пользователя."
+        };
+
+        var dialog = new ContentDialog
+        {
+            Title = "Information",
+            PrimaryButtonText = "ОК",
+            Content = infoContent
+        };
+
+        await dialog.ShowAsync();
+    }
+
+    [RelayCommand]
+    private async Task ShowWarningDialog()
+    {
+        var warningContent = new MessageDialogContent
+        {
+            IconKind = MessageDialogIconKind.Warning,
+            Message = "Это предупреждение!\nОбратите внимание, это важное сообщение для вашей работы."
+        };
+
+        var dialog = new ContentDialog
+        {
+            Title = "Warning",
+            PrimaryButtonText = "ОК",
+            Content = warningContent
+        };
+
+        await dialog.ShowAsync();
+    }
+
+    [RelayCommand]
+    private async Task ShowQuestionDialog()
+    {
+        var questionContent = new MessageDialogContent
+        {
+            IconKind = MessageDialogIconKind.Question,
+            Message = "Вы уверены, что хотите продолжить?\nЭто действие нельзя отменить."
+        };
+
+        var dialog = new ContentDialog
+        {
+            Title = "Question",
+            PrimaryButtonText = "Yes",
+            SecondaryButtonText = "No",
+            Content = questionContent
+        };
+
+        var result = await dialog.ShowAsync();
+        LogText += $"question dialog result: {result}\n";
+    }
+
+
+    [RelayCommand]
+    private async Task AskForInput()
+    {
+        var inputContent = new InputDialogContent
+        {
+            Prompt = "Enter something", 
+            Input = string.Empty 
+        };
+
+        var dialog = new ContentDialog
+        {
+            Title = "Input Required",
+            PrimaryButtonText = "OK",
+            SecondaryButtonText = "Cancel",
+            Content = inputContent
+        };
+
+
+        var result = await dialog.ShowAsync();
+        LogText += $"input dialog result: {result}\nInput: {((InputDialogContent)dialog.Content).Input}";
+    }
+
+
+    // Для вызова через ADialogService
+    [RelayCommand]
+    private async Task ShowErrorDialogService()
+    {
+        var dialogService = new ADialogService();
+        await dialogService.ShowErrorMessage("Error", "Это ошибка, которая приходит через сервис.");
+    }
+
+    [RelayCommand]
+    private async Task ShowInfoDialogService()
+    {
+        var dialogService = new ADialogService();
+        await dialogService.ShowMessage("Information", "Это информационное сообщение, которое приходит через сервис.");
+    }
+
+    [RelayCommand]
+    private async Task ShowWarningDialogService()
+    {
+        var dialogService = new ADialogService();
+        await dialogService.ShowMessage("Warning", "Это предупреждение, которое приходит через сервис.");
+    }
+
+    [RelayCommand]
+    private async Task ShowQuestionDialogService()
+    {
+        var dialogService = new ADialogService();
+        var result = await dialogService.Confirmed("Question", "Вы уверены, что хотите продолжить?");
+        LogText += $"Question dialog result: {result}\n";
+    }
+
+    [RelayCommand]
+    private async Task AskForInputService()
+    {
+        var dialogService = new ADialogService();
+        var (success, input) = await dialogService.InputBox("Input Required", "Please enter something:", "Placeholder text", string.Empty);
+        LogText += $"Input dialog result: {success}, Input: {input}\n";
     }
 }

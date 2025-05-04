@@ -15,7 +15,7 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        //RequestedThemeVariant = ThemeVariant.Light;
+        RequestedThemeVariant = ThemeVariant.Light;
     }
 
     public override void OnFrameworkInitializationCompleted()

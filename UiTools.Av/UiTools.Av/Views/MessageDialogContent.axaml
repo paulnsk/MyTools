@@ -1,28 +1,3 @@
-
-<!--<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:views="clr-namespace:UiTools.Av.Views"
-             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
-             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
-             x:Class="UiTools.Av.Views.MessageDialogContent">
-    <UserControl.Resources>
-        <views:HalfConverter x:Key="HalfConverter"/>
-    </UserControl.Resources>
-
-    <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Top">
-        <TextBlock Text="❌" FontSize="32" Foreground="Red" VerticalAlignment="Top"/>
-        <TextBlock
-            Text="{Binding ErrorMessage, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            TextWrapping="Wrap"
-            MaxWidth="{Binding Source={StaticResource ContentDialogMaxWidth}, Converter={StaticResource HalfConverter}}"/>
-
-    </StackPanel>
-</UserControl>-->
-
-
-
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -36,11 +11,10 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Top">
-        <TextBlock
-            Text="{Binding IconText, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            FontSize="42"
-            Foreground="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            VerticalAlignment="Top" />
+        <PathIcon 
+            Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Width="48" Height="48"
+            Foreground="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <TextBlock
             Text="{Binding Message, RelativeSource={RelativeSource AncestorType=UserControl}}"
             TextWrapping="Wrap"
