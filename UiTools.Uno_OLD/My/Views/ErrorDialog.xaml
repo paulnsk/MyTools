@@ -1,0 +1,17 @@
+﻿<ContentDialog
+    x:Class="UiTools.Uno.My.Views.ErrorDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UiTools.Uno.My.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="TITLE"
+    Style="{ThemeResource DefaultContentDialogStyle}"
+    PrimaryButtonText="OK"
+    >
+	<Grid>
+
+        <FontIcon HorizontalAlignment="Left" VerticalAlignment="Top" Glyph="&#xEA39;" Margin="0,10,0,0" FontSize="35" Foreground="Red"/>
+        <TextBlock VerticalAlignment="Center" Margin="45,0,0,0" TextWrapping="Wrap" Text="{x:Bind ErrorMessage, Mode=OneWay}" ></TextBlock>
+
+    </Grid>
+</ContentDialog>

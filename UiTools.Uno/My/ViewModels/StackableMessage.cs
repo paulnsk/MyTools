@@ -18,12 +18,5 @@ namespace UiTools.Uno.My.ViewModels
 
 
         public string? Id { get; set; }
-        //public bool IsClosed { get; set; }
-
-        //[RelayCommand]
-        //private void CloseMe()
-        //{
-        //    IsClosed = true;
-        //}
     }
 }

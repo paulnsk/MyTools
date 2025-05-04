@@ -45,7 +45,7 @@
 
     <ItemGroup>
       <Reference Include="System.Windows.Forms">
-        <HintPath>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\8.0.2\System.Windows.Forms.dll</HintPath>
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\8.0.15\System.Windows.Forms.dll</HintPath>
         <Private>True</Private>
       </Reference>
     </ItemGroup>

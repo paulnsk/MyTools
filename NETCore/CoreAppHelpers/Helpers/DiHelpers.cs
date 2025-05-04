@@ -6,7 +6,7 @@ namespace CoreAppHelpers.Helpers
     public static class DiHelpers
     {
         //Use with care as this may lead to services being unexpectedly duplicated
-        private static T GetJustRegisteredService<T>(this IServiceCollection services) where T : class
+        public static T GetJustRegisteredService<T>(this IServiceCollection services) where T : class
         {
             using var provider = services.BuildServiceProvider();
             return provider.GetRequiredService<T>();

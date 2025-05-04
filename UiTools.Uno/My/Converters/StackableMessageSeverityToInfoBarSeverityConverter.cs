@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
+﻿using Microsoft.UI.Xaml.Data;
 using UiTools.Uno.My.ViewModels;
 
 namespace UiTools.Uno.My.Converters
@@ -9,6 +7,7 @@ namespace UiTools.Uno.My.Converters
     {
         public object? Convert(object value, Type targetType, object parameter, string language)
         {
+            
             if (value is StackableMessageSeverity sms)
             {
                 return Enum.Parse<InfoBarSeverity>(sms.ToString());

@@ -1,0 +1,17 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:UiTools.Av.Demo"
+             xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
+             x:Class="UiTools.Av.Demo.App"
+             RequestedThemeVariant="Default">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+
+             <Application.Styles>
+                 <styling:FluentAvaloniaTheme  PreferSystemTheme="True"  PreferUserAccentColor="True" />
+             </Application.Styles>
+
+    <!--<Application.Styles>
+        <FluentTheme />
+    </Application.Styles>-->
+</Application>

@@ -1,0 +1,110 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UiTools.Av.Demo.ViewModels"
+             xmlns:fa="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UiTools.Av.Demo.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+  
+
+  <TabControl>
+      <!-- Page 1: Button and TextBox -->
+      <TabItem Header="Input Page">
+          <StackPanel Margin="10" Spacing="10">
+              <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+              <TextBox Text="{Binding InputText}" Watermark="Enter some text" Width="200"/>
+              <Button Content="Click Me" Command="{Binding ButtonClickCommand}" Width="100"/>
+          </StackPanel>
+      </TabItem>
+
+      <!-- Page 2: RadioButtons -->
+      <TabItem Header="Options Page">
+          <StackPanel Margin="10" Spacing="10">
+              <RadioButton Content="Option 1" IsChecked="{Binding IsOption1Selected}" GroupName="Options"/>
+              <RadioButton Content="Option 2" IsChecked="{Binding IsOption2Selected}" GroupName="Options"/>
+              <RadioButton Content="Option 3" IsChecked="{Binding IsOption3Selected}" GroupName="Options"/>
+          </StackPanel>
+      </TabItem>
+
+      <TabItem Header="MainThreadService">
+          <StackPanel Margin="10" Spacing="10">
+              <Button Content="Run Background Task" Command="{Binding RunBackgroundTaskCommand}"/>
+              <TextBlock Text="{Binding ThreadDemoResult}" MinHeight="20"/>
+          </StackPanel>
+      </TabItem>
+
+      <TabItem Header="ResponsiveCollection">
+          <DockPanel Margin="10">
+              <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
+                  <Button Content="Add Persons" Command="{Binding AddPersonsCommand}" Width="150"/>
+                  <Button Content="Clear" Command="{Binding ClearPersonsCommand}" Width="100"/>
+                  <fa:NumberBox Value="{Binding NumPersonsToAdd}" Minimum="1" Maximum="10000" SpinButtonPlacementMode="Inline"/>
+              </StackPanel>
+              <Grid ColumnDefinitions="250,4,*">
+                  <ListBox Grid.Column="0" ItemsSource="{Binding Persons}">
+                      <ListBox.ItemTemplate>
+                          <DataTemplate>
+                              <StackPanel Margin="0,8" Spacing="2">
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="ID:"/>
+                                      <TextBlock Text="{Binding Id}" Foreground="#007ACC"/>
+                                  </StackPanel>
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="Full Name:"/>
+                                      <TextBlock Foreground="#007ACC">
+                                          <TextBlock.Text>
+                                              <MultiBinding StringFormat="{}{0} {1}">
+                                                  <Binding Path="Name"/>
+                                                  <Binding Path="LastName"/>
+                                              </MultiBinding>
+                                          </TextBlock.Text>
+                                      </TextBlock>
+                                  </StackPanel>
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="Age:"/>
+                                      <TextBlock Text="{Binding Age}" Foreground="#2ECC71"/>
+                                  </StackPanel>
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="Email:"/>
+                                      <TextBlock Text="{Binding Email}" Foreground="#9B59B6"/>
+                                  </StackPanel>
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="Phone:"/>
+                                      <TextBlock Text="{Binding Phone}" Foreground="#E67E22"/>
+                                  </StackPanel>
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="Birth:"/>
+                                      <TextBlock Text="{Binding BirthDate, StringFormat=' {0:yyyy-MM-dd}'}" Foreground="#F1C40F"/>
+                                  </StackPanel>
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="Dept:"/>
+                                      <TextBlock Text="{Binding Department}" Foreground="#E91E63"/>
+                                  </StackPanel>
+                                  <StackPanel Orientation="Horizontal" Spacing="5">
+                                      <TextBlock Text="Salary:"/>
+                                      <TextBlock Text="{Binding Salary, StringFormat=' {0:C0}'}" Foreground="#1ABC9C"/>
+                                  </StackPanel>
+                              </StackPanel>
+                          </DataTemplate>
+                      </ListBox.ItemTemplate>
+                  </ListBox>
+                  <GridSplitter Grid.Column="1" Background="Gray" ResizeDirection="Columns"/>
+                  <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                      <TextBox Text="{Binding LogText}" IsReadOnly="True" AcceptsReturn="True" VerticalContentAlignment="Top"/>
+                  </ScrollViewer>
+              </Grid>
+          </DockPanel>
+      </TabItem>
+
+
+  </TabControl>
+
+</UserControl>
