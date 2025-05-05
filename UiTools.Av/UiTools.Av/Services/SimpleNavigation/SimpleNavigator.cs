@@ -1,8 +1,8 @@
 using System;
+using Avalonia.Layout;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
 
-namespace UiTools.Uno.My.Services.SimpleNavigation;
+namespace UiTools.Av.Services.SimpleNavigation;
 
 public class SimpleNavigator<TShellView, TShellViewModel>(IServiceProvider services) where TShellView : IShellView<TShellViewModel>
 {

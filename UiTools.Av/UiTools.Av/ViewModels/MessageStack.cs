@@ -31,7 +31,7 @@ namespace UiTools.Av.ViewModels
 
         public MessageStack()
         {
-            var msg = Create(StackableMessageSeverity.Error, "Error", $"Too many messages to display! Max={MaxMessages}", SInternalError);
+            var msg = Create(StackableMessageSeverity.Error, "Error", $"Too many messages to display! Max={MaxMessages}", SInternalError, 0);
             msg.IsOpen = false;
             Messages.Add(msg);
         }
@@ -42,26 +42,40 @@ namespace UiTools.Av.ViewModels
             if (msg != null) msg.IsOpen = false;
         }
 
-        public void AddError(string title, string message, string? id = null)
+        public void Clear()
         {
-            AddOrReplace(Create(StackableMessageSeverity.Error, title, message, id));
-        }
-        public void AddWarning(string title, string message, string? id = null)
-        {
-            AddOrReplace(Create(StackableMessageSeverity.Warning, title, message, id));
-        }
-
-        public void AddInfo(string title, string message, string? id = null)
-        {
-            AddOrReplace(Create(StackableMessageSeverity.Informational, title, message, id));
+            foreach (var msg in Messages)
+            {
+                msg.IsOpen = false;
+            }
         }
 
-        private StackableMessage Create(StackableMessageSeverity severity, string title, string message, string? id)
+
+        public void AddError(string title, string message, string? id = null, double? ttlMilliseconds = null) =>
+            AddOrReplace(Create(StackableMessageSeverity.Error, title, message, id, ttlMilliseconds));
+
+        public void AddWarning(string title, string message, string? id = null, double? ttlMilliseconds = null) =>
+            AddOrReplace(Create(StackableMessageSeverity.Warning, title, message, id, ttlMilliseconds));
+
+        public void AddInfo(string title, string message, string? id = null, double? ttlMilliseconds = null) =>
+            AddOrReplace(Create(StackableMessageSeverity.Informational, title, message, id, ttlMilliseconds));
+
+        public void AddSuccess(string title, string message, string? id = null, double? ttlMilliseconds = null) =>
+            AddOrReplace(Create(StackableMessageSeverity.Success, title, message, id, ttlMilliseconds));
+
+        private StackableMessage Create(StackableMessageSeverity severity, string title, string message, string? id, double? ttlMilliseconds)
         {
             if (string.IsNullOrWhiteSpace(id)) id = Guid.NewGuid().ToString();
-            return (new StackableMessage { Severity = severity, Id = id, MessageText = message, Title = title, IsOpen = true }); ;
+            return new StackableMessage
+            {
+                Severity = severity,
+                Id = id,
+                MessageText = message,
+                Title = title,
+                IsOpen = true,
+                TtlMilliseconds = ttlMilliseconds
+            };
         }
-
 
         private string PrefixedMessage(string? message)
         {

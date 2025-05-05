@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:UiTools.Av.Demo.ViewModels"
              xmlns:fa="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
              xmlns:customControls="clr-namespace:UiTools.Av.CustomControls;assembly=UiTools.Av"
+             xmlns:views="clr-namespace:UiTools.Av.Views;assembly=UiTools.Av"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="UiTools.Av.Demo.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -128,6 +129,17 @@
               </Grid>
           </DockPanel>
       </TabItem>
+
+      <TabItem Header="Infobars">
+          <StackPanel Margin="10" Spacing="10">
+              <StackPanel Spacing="10" Orientation="Horizontal">
+                  <Button Command="{Binding AddRandomStackedMessagesCommand}">Add random messages</Button>
+                  <Button Command="{Binding ClearStackedMessagesCommand}">Clear</Button>
+              </StackPanel>
+              <views:StackableMessageView Items22Source="{Binding MessageStack.Messages, Mode=OneWay}"/>
+          </StackPanel>
+      </TabItem>
+
 
 
   </TabControl>

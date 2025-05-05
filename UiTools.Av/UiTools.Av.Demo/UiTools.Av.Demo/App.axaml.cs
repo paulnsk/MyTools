@@ -8,6 +8,12 @@ using UiTools.Av.Demo.ViewModels;
 using UiTools.Av.Demo.Views;
 using Avalonia.Styling;
 
+
+//todo демо для ДИ
+//todo демо для навигатора
+//todo переделать нью диалогсервис на ДИ
+//todo куда класть стили?? CommonStyles
+
 namespace UiTools.Av.Demo;
 
 public partial class App : Application
@@ -15,7 +21,6 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
-        RequestedThemeVariant = ThemeVariant.Light;
     }
 
     public override void OnFrameworkInitializationCompleted()
@@ -39,6 +44,8 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+        //RequestedThemeVariant = ThemeVariant.Light;
+        //RequestedThemeVariant = ThemeVariant.Dark;//todo дарк тема в андроеде не врубается (только с дефаултными стилями но не с флуент) <<<---- а тут работает
     }
 
     private void DisableAvaloniaDataAnnotationValidation()

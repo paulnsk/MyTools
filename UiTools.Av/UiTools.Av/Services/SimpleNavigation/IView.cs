@@ -1,4 +1,4 @@
-namespace UiTools.Uno.My.Services.SimpleNavigation;
+namespace UiTools.Av.Services.SimpleNavigation;
 
 public interface IView
 {

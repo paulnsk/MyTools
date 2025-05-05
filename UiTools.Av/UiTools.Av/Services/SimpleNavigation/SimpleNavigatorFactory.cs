@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace UiTools.Uno.My.Services.SimpleNavigation;
+namespace UiTools.Av.Services.SimpleNavigation;
 
 public class SimpleNavigatorFactory(IServiceProvider services)
 {

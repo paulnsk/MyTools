@@ -9,6 +9,8 @@ using FluentAvalonia.UI.Controls;
 using UiTools.Av.Mvvm;
 using UiTools.Av.Services;
 using UiTools.Av.Views;
+using UiTools.Av.ViewModels;
+using System.Collections.Generic;
 
 namespace UiTools.Av.Demo.ViewModels;
 
@@ -42,7 +44,8 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isOption3Selected = false;
 
-    
+
+
     [RelayCommand]
     private void ButtonClick()
     {
@@ -287,4 +290,60 @@ public partial class MainViewModel : ViewModelBase
         var (success, input) = await dialogService.InputBox("Input Required", "Please enter something:", "Placeholder text", string.Empty);
         LogText += $"Input dialog result: {success}, Input: {input}\n";
     }
+
+
+
+    [ObservableProperty] private MessageStack _messageStack = new();
+
+
+    [RelayCommand]
+    public void ClearStackedMessages()
+    {
+        MessageStack.Clear();
+    }
+
+    [RelayCommand]
+    public async Task AddRandomStackedMessages()
+    {
+        var random = new Random();
+        var types = Enum.GetValues(typeof(StackableMessageSeverity)).Cast<StackableMessageSeverity>().ToArray();
+
+        var count = random.Next(5, 11);
+        var generatedIds = new List<string>();
+
+        for (var i = 0; i < count; i++)
+        {
+            var severity = types[random.Next(types.Length)];
+            var id = Guid.NewGuid().ToString();
+            generatedIds.Add(id);
+
+            double? ttl = random.NextDouble() < 0.5 ? random.Next(1000, 5001) : null;
+
+            var title = $"{severity} message #{i + 1}";
+            var msg = "This is a randomly generated";
+            if (random.NextDouble() < 0.1)
+                msg =
+                    "Метакогнитивный анализ сущностных противоречий в режиме позднего капитализма демонстрирует поливалентность институционализированной эксплуатации как детерминанты циклических конъюнктурных колебаний, обеспечивающих перманентную концентрацию капитала в условиях регрессивной трансформации трудовой стоимости. При этом интероперабельность идеологических гегемоний с технократическим регулированием производства порождает парадигмальную инверсию социальной мобилизации, фетишизируя эквивалентную ценность товарного обмена как ключевой компонент институциональной легитимации рыночного порядка.\n\nСинергетическая ретроспекция марксистской методологии позволяет экстраполировать перспективу эволюционного преобразования экономической формации через деконструкцию механизмов отчуждения труда и стратегическую реорганизацию репрессивных моделей экономического доминирования. В этом контексте концептуальное переосмысление производства и распределения ресурсов открывает горизонты квазисистемного перехода от капиталистического детерминизма к пост-революционной фазе общественной самоорганизации.";
+            
+            var message = (ttl != null ? $" ---------------------- TTL = {ttl.Value} ms --------------- " : string.Empty) + $"{msg} {severity.ToString().ToLower()}.";
+
+            switch (severity)
+            {
+                case StackableMessageSeverity.Error:
+                    MessageStack.AddError(title, message, id, ttl);
+                    break;
+                case StackableMessageSeverity.Warning:
+                    MessageStack.AddWarning(title, message, id, ttl);
+                    break;
+                case StackableMessageSeverity.Success:
+                    MessageStack.AddSuccess(title, message, id, ttl);
+                    break;
+                default:
+                    MessageStack.AddInfo(title, message, id, ttl);
+                    break;
+            }
+        }
+    }
+
+
 }

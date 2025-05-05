@@ -1,26 +1,35 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data.Converters;
-using System.Globalization;
 using System;
-using System.IO;
-using System.Linq;
-using Avalonia.Controls.Presenters;
-using Avalonia.Input.Platform;
-using Avalonia.VisualTree;
-using FluentAvalonia.UI.Controls;
-using Avalonia.LogicalTree;
 using Avalonia.Media;
 
 namespace UiTools.Av.Views;
 
 
+//todo on android text won't fit horizontally
 public partial class MessageDialogContent : UserControl
 {
     public MessageDialogContent()
     {
         InitializeComponent();
-        UpdateIcon(); // начальная инициализация
+
+
+        Loaded += (s, e) =>
+        {
+            var maxWidthFromRes = Application.Current.FindResource("ContentDialogMaxWidth") as double? ?? 0;
+            var maxWidthFromBounds = Bounds.Width;
+            var toSet = Math.Min(maxWidthFromRes, maxWidthFromBounds);
+            
+            var textBlock = this.FindControl<TextBlock>("MessageTextBlock");
+            if (textBlock != null)
+            {
+                textBlock.MaxWidth = (toSet - 50) * 0.9; //50 px for icon
+            }
+        };
+
+
+
+        UpdateIcon(); 
     }
 
     public static readonly StyledProperty<string> MessageProperty =
@@ -115,15 +124,15 @@ public enum MessageDialogIconKind
 }
 
 
-public class HalfConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is double d and > 0)
-            return d * 0.8; 
-        throw new Exception($"Unable to get value for {nameof(HalfConverter)}");
-    }
+//public class HalfConverter : IValueConverter
+//{
+//    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+//    {
+//        if (value is double d and > 0)
+//            return d * 0.8; 
+//        throw new Exception($"Unable to get value for {nameof(HalfConverter)}");
+//    }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => throw new NotImplementedException();
-}
+//    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+//        => throw new NotImplementedException();
+//}

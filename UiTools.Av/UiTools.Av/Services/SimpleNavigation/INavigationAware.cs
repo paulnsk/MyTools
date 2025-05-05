@@ -1,8 +1,7 @@
-namespace UiTools.Uno.My.Services.SimpleNavigation;
+namespace UiTools.Av.Services.SimpleNavigation;
 
 public interface INavigationAware
 {
-    //todo there is a duplicate in uitools.uno
     
     /// <summary>
     /// Occurs when the model is navigated to. Do your initialization here

@@ -1,6 +1,6 @@
-using Microsoft.UI.Xaml.Controls;
+using Avalonia.Controls;
 
-namespace UiTools.Uno.My.Services.SimpleNavigation;
+namespace UiTools.Av.Services.SimpleNavigation;
 
 public interface IShellView<TShellViewModel> : IView<TShellViewModel>
 {

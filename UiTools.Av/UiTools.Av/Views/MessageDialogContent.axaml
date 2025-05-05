@@ -6,18 +6,26 @@
              mc:Ignorable="d"
              x:Class="UiTools.Av.Views.MessageDialogContent">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <views:HalfConverter x:Key="HalfConverter"/>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
     <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Top">
-        <PathIcon 
+        <!--<TextBlock Width="40" Text="{Binding Source={StaticResource ContentDialogMaxWidth}}"></TextBlock>-->
+        <PathIcon
             Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
             Width="48" Height="48"
             Foreground="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <TextBlock
+        <!--<TextBlock
+            x:Name="MessageTextBlock"
             Text="{Binding Message, RelativeSource={RelativeSource AncestorType=UserControl}}"
             TextWrapping="Wrap"
-            MaxWidth="{Binding Source={StaticResource ContentDialogMaxWidth}, Converter={StaticResource HalfConverter}}"/>
+            MaxWidth="{Binding Source={StaticResource ContentDialogMaxWidth}, Converter={StaticResource HalfConverter}}"/>-->
+        <TextBlock
+            x:Name="MessageTextBlock"
+            Text="{Binding Message, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            TextWrapping="Wrap"
+            />
     </StackPanel>
+    
 </UserControl>
