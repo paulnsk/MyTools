@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
+using UiTools.Av.Extensions;
+using UiTools.Av.Models;
 using UiTools.Av.Services;
 
 namespace UiTools.Av.Mvvm;
@@ -108,5 +111,40 @@ public class ResponsiveCollection<T>: ObservableCollection<T>
     private readonly ActionBlock<Func<Task>> _taskQueue;
 
     public event EventHandler? QueueEmpty;
+
+
+
+
+    /// <summary>
+    /// Sorts the collection in place by replacing items one by one using the provided sorting conditions.
+    /// Each replacement is enqueued to ensure UI responsiveness and consistency with other collection operations.
+    /// </summary>
+    /// <param name="conditions">The sorting conditions to apply.</param>
+    /// <returns>A task representing the completion of the sorting operation.</returns>
+    public async Task InplaceSort(IEnumerable<SortingCondition> conditions)
+    {
+        var sortingConditions = conditions as SortingCondition[] ?? conditions.ToArray();
+        if (!sortingConditions.Any())
+        {
+            return;
+        }
+
+        // Create a sorted copy of the collection
+        var sortedList = this.MultiSort(sortingConditions).ToList();
+        
+
+        for (var i = 0; i < Count; i++)
+        {
+            var index = i; // Capture i for lambda
+            if (!EqualityComparer<T>.Default.Equals(this[index], sortedList[index]))
+            {
+                await Enqueue(() =>
+                {
+                        this[index] = sortedList[index];
+                });
+            }
+        }
+        
+    }
 
 }

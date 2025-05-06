@@ -20,6 +20,6 @@ public partial class StackableMessageView : UserControl
         get => GetValue(Items22SourceProperty);
         set => SetValue(Items22SourceProperty, value);
     }
-
+    
     
 }

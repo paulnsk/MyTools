@@ -6,7 +6,7 @@ using Avalonia.Media;
 namespace UiTools.Av.Views;
 
 
-//todo on android text won't fit horizontally
+
 public partial class MessageDialogContent : UserControl
 {
     public MessageDialogContent()

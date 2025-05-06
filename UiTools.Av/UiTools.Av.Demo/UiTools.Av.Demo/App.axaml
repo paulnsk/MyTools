@@ -8,7 +8,7 @@
 
 
              <Application.Styles>
-                 <styling:FluentAvaloniaTheme  PreferSystemTheme="True"  PreferUserAccentColor="True" />
+                 <styling:FluentAvaloniaTheme  PreferSystemTheme="True"  PreferUserAccentColor="True" CustomAccentColor="Yellow" />
              </Application.Styles>
 
     <!--<Application.Styles>

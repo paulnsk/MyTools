@@ -1,27 +1,21 @@
-<ResourceDictionary xmlns="https://github.com/avaloniaui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:UiTools.Av.Converters">
-  <!-- Add Resources Here -->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <Border Padding="20">
+     
+    </Border>
+  </Design.PreviewWith>
 
-  
-  <converters:StackableMessageSeverityToInfoBarSeverityConverter x:Name="StackableMessageSeverityToInfoBarSeverityConverter"/>
+    <Style Selector="CheckBox.ShrinkableCheckBox">
+        <Setter Property="MinWidth" Value="0"/>
+        <Setter Property="MinHeight" Value="0"/>
+    </Style>
 
-  <Style x:Key="ShrinkableCheckBox" TargetType="CheckBox">
-      <Setter Property="MinWidth" Value="0"/>
-      <Setter Property="MinHeight" Value="0"/>
-  </Style>
+    
+    <Style Selector="TextBlock.LittleAccentTextBlock">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource SystemAccentColorLight3}" />
+    </Style>
 
-  <Style x:Key="TestCheckBox" TargetType="CheckBox">
-      <Setter Property="MinWidth" Value="0"/>
-      <Setter Property="MinHeight" Value="0"/>
-
-      <Setter Property="Height" Value="100"/>
-  </Style>
-
-  <Style x:Key="LittleGrayTextBlock" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="9"/>
-      <Setter Property="VerticalAlignment" Value="Center"/>
-      <Setter Property="Foreground" Value="{ThemeResource SystemColorControlAccentBrush}"/>
-  </Style>
-
-</ResourceDictionary>
+</Styles>

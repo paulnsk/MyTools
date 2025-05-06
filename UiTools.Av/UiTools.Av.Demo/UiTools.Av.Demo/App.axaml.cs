@@ -7,6 +7,8 @@ using Avalonia.Markup.Xaml;
 using UiTools.Av.Demo.ViewModels;
 using UiTools.Av.Demo.Views;
 using Avalonia.Styling;
+using FluentAvalonia.Styling;
+using Avalonia.Controls;
 
 
 //todo демо для ДИ
@@ -45,7 +47,8 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
         //RequestedThemeVariant = ThemeVariant.Light;
-        //RequestedThemeVariant = ThemeVariant.Dark;//todo дарк тема в андроеде не врубается (только с дефаултными стилями но не с флуент) <<<---- а тут работает
+        //RequestedThemeVariant = ThemeVariant.Dark;
+
     }
 
     private void DisableAvaloniaDataAnnotationValidation()

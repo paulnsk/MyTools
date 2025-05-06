@@ -29,14 +29,12 @@ namespace UiTools.Av.ViewModels
             get => IsDescending ? "Descending" : "Ascending";
             set { }
         }
-
-        //todo on some androids the glyph is missing. Need an svg
-        public string ArrowGlyph
-        {
-            //getter only property does not want to be bindable            
-            get => IsDescending ? "↓" : "↑";            
-            set { }
-        }
+        
+        //public string ArrowGlyph
+        //{
+        //    get => IsDescending ? "↓" : "↑";            
+        //    set { }
+        //}
 
         [ObservableProperty]
         private string _fieldName;
@@ -45,7 +43,7 @@ namespace UiTools.Av.ViewModels
         private string? _displayName;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(ArrowGlyph))]
+        //[NotifyPropertyChangedFor(nameof(ArrowGlyph))]
         [NotifyPropertyChangedFor(nameof(ArrowToolTip))]
         private bool _isDescending;
 

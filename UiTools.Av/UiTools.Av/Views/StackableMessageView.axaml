@@ -14,9 +14,12 @@
         <converters:StackableMessageSeverityToInfoBarSeverityConverter x:Key="StackableMessageSeverityToInfoBarSeverityConverter"/>
     </UserControl.Resources>
 
-    
+    <UserControl.Styles>
+        <StyleInclude Source="../Styles/CommonStyles.axaml"></StyleInclude>
+    </UserControl.Styles>
+
+
         <StackPanel>
-            
             <ItemsControl ItemsSource="{Binding Items22Source, RelativeSource={RelativeSource AncestorType=UserControl}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="viewModels:StackableMessage">

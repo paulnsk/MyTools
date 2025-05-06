@@ -11,6 +11,8 @@ using UiTools.Av.Services;
 using UiTools.Av.Views;
 using UiTools.Av.ViewModels;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using UiTools.Av.Extensions;
 
 namespace UiTools.Av.Demo.ViewModels;
 
@@ -19,6 +21,18 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel()
     {
+
+        _sortFieldSelector = new SortFieldSelectorVm<PersonViewModel>
+        (
+            nameMappings: [(nameof(PersonViewModel.BirthDate), "Date of burth")],
+            skipFields: [nameof(PersonViewModel.Id)]
+        );
+        _sortFieldSelector.Check(nameof(PersonViewModel.BirthDate), true);
+        _sortFieldSelector.Check(nameof(PersonViewModel.Name), false);
+        _sortFieldSelector.SortingConditionsChanged += _sortFieldSelector_SortingConditionsChanged; 
+
+
+
         _persons.QueueEmpty += (s, e) =>
         {
             //MainThreadService.Instance.EnqueueOnMainThread(() =>
@@ -28,8 +42,37 @@ public partial class MainViewModel : ViewModelBase
         };
     }
 
+    private async void _sortFieldSelector_SortingConditionsChanged(object? sender, EventArgs e)
+    {
+        Kandishens =
+            "conds: \n\n" + string.Join("\n", SortFieldSelector.SortingConditions) + "\n\n" +
+            string.Join("; ", SortFieldSelector.SelectedFields.Select(x => x.DisplayName))
+            ;
+        await ApplySorting();
+    }
+
+    //todo ApplySorting()
+    private async Task ApplySorting()
+    {
+        //LogText += "ApplySorting НЕ ЗАИМПЛЕМЕНЧЕНИНГ!!\n";
+        await Persons.InplaceSort(SortFieldSelector.SortingConditions);
+
+        //var sorted = Persons.MultiSort(SortFieldSelector.SortingConditions).ToList();
+        //Persons = new ResponsiveCollection<PersonViewModel>(sorted);
+    }
+
     [ObservableProperty]
     private string _greeting = "Welcome to Avalonia!";
+
+
+    [ObservableProperty]
+    private SortFieldSelectorVm<PersonViewModel> _sortFieldSelector;
+
+    [ObservableProperty]
+    private string _kandishens = string.Empty;
+
+
+
 
 
     [ObservableProperty]

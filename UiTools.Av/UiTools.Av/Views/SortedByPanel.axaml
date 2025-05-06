@@ -1,0 +1,77 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:customControls="clr-namespace:UiTools.Av.CustomControls"
+             xmlns:viewModels="clr-namespace:UiTools.Av.ViewModels"
+             xmlns:converters="clr-namespace:UiTools.Av.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UiTools.Av.Views.SortedByPanel">
+
+
+    <UserControl.Styles>
+        <StyleInclude Source="../Styles/CommonStyles.axaml"></StyleInclude>
+    </UserControl.Styles>
+
+
+    <UserControl.Resources>
+        <converters:BoolToArrowGeometryConverter x:Key="BoolToArrowGeometryConverter" />
+    </UserControl.Resources>
+
+
+    <StackPanel VerticalAlignment="Center">
+        <ItemsControl ItemsSource="{Binding SelectedFields, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="viewModels:SortableFieldVm">
+                    <StackPanel Orientation="Horizontal" Background="{DynamicResource ButtonBackgroundDisabled}">
+                        <StackPanel Margin="5,0" Orientation="Horizontal"
+                                    IsVisible="{Binding IsChecked}">
+                            <TextBlock VerticalAlignment="Center" Classes="LittleAccentTextBlock">(</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Classes="LittleAccentTextBlock"
+                                       Text="{Binding Order}"/>
+                            <TextBlock VerticalAlignment="Center" Classes="LittleAccentTextBlock">)</TextBlock>
+                        </StackPanel>
+
+                        <TextBlock VerticalAlignment="Center" FontSize="16"
+                                   Text="{Binding DisplayName}" />
+
+
+                        <CheckBox IsChecked="{Binding IsDescending, Mode=TwoWay}"
+                                  ToolTip.Tip="{Binding ArrowToolTip}"
+                                  Cursor="Hand">
+                            <CheckBox.Template>
+                                <ControlTemplate TargetType="CheckBox">
+                                    <!--background for clickability-->
+                                    <Grid Background="{DynamicResource CheckBoxBackgroundUnchecked}">
+                                        <Path Data="{Binding IsDescending, Converter={StaticResource BoolToArrowGeometryConverter}}"
+                                              Fill="{DynamicResource AccentButtonBackground}"
+                                              Width="16"
+                                              Height="16"
+                                              Stretch="Uniform"
+                                              VerticalAlignment="Center"
+                                              Margin="10,5,5,5" />
+                                    </Grid>
+
+                                </ControlTemplate>
+                            </CheckBox.Template>
+
+
+                        </CheckBox>
+
+                        <customControls:CloseButton Height="10" Command="{Binding UncheckCommand}"
+                                                    Margin="6"
+                                                    ToolTip.Tip="Remove"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" Spacing="10"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </StackPanel>
+
+
+</UserControl>

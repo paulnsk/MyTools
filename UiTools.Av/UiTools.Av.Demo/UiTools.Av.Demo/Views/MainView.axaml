@@ -15,9 +15,10 @@
     <vm:MainViewModel />
   </Design.DataContext>
 
-  
 
-  <TabControl>
+
+
+    <TabControl>
       <!-- Page 1: Button and TextBox -->
       <TabItem Header="Input Page">
           <StackPanel Margin="10" Spacing="10">
@@ -69,6 +70,10 @@
 
       <TabItem Header="ResponsiveCollection">
           <DockPanel Margin="10">
+              <StackPanel Margin="8" DockPanel.Dock="Top" Orientation="Horizontal" VerticalAlignment="Center" Spacing="20" HorizontalAlignment="Right">
+                  <views:SortedByPanel DockPanel.Dock="Left" SelectedFields="{Binding SortFieldSelector.SelectedFields, Mode=OneWay}"/>
+                  <views:SortbyDropdown DockPanel.Dock="Left" SortableFields="{Binding SortFieldSelector.SortableFields, Mode=OneWay}"/>
+              </StackPanel>
               <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
                   <Button Content="Add Persons" Command="{Binding AddPersonsCommand}" Width="150"/>
                   <Button Content="Clear" Command="{Binding ClearPersonsCommand}" Width="100"/>

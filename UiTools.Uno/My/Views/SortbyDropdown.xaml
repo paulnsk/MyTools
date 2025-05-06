@@ -24,6 +24,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
+
     
     <DropDownButton Content="Sort by">
         <DropDownButton.Flyout >
