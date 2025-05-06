@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:UiTools.Av.Converters">
+  <!-- Add Resources Here -->
+
+  
+  <converters:StackableMessageSeverityToInfoBarSeverityConverter x:Name="StackableMessageSeverityToInfoBarSeverityConverter"/>
+
+  <Style x:Key="ShrinkableCheckBox" TargetType="CheckBox">
+      <Setter Property="MinWidth" Value="0"/>
+      <Setter Property="MinHeight" Value="0"/>
+  </Style>
+
+  <Style x:Key="TestCheckBox" TargetType="CheckBox">
+      <Setter Property="MinWidth" Value="0"/>
+      <Setter Property="MinHeight" Value="0"/>
+
+      <Setter Property="Height" Value="100"/>
+  </Style>
+
+  <Style x:Key="LittleGrayTextBlock" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="9"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Foreground" Value="{ThemeResource SystemColorControlAccentBrush}"/>
+  </Style>
+
+</ResourceDictionary>

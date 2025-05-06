@@ -15,5 +15,11 @@
   </ItemGroup>
 
 
+  <ItemGroup>
+    <Page Update="Styles\CommonStyles.axaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
 
 </Project>

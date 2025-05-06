@@ -11,5 +11,6 @@
                    HorizontalAlignment="Left" />
         <TextBox Text="{Binding Input, RelativeSource={RelativeSource AncestorType=UserControl}}"
                  Watermark="Enter your input here" HorizontalAlignment="Stretch" />
+        
     </StackPanel>
 </UserControl>
