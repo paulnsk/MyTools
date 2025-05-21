@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
              xmlns:viewModels="clr-namespace:UiTools.Av.ViewModels"
              xmlns:converters="clr-namespace:UiTools.Av.Converters"
+             xmlns:views="clr-namespace:UiTools.Av.Views"
              mc:Ignorable="d" 
              x:Class="UiTools.Av.Views.StackableMessageView">
 
@@ -20,7 +21,7 @@
 
 
         <StackPanel>
-            <ItemsControl ItemsSource="{Binding Items22Source, RelativeSource={RelativeSource AncestorType=UserControl}}">
+            <ItemsControl ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=views:StackableMessageView}}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="viewModels:StackableMessage">
                         <controls:InfoBar MaxHeight="500"

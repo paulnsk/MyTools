@@ -16,7 +16,7 @@ public class LogUrlMiddleware(RequestDelegate next, ILogger<LogUrlMiddleware> lo
 {
     private readonly LogUrlMiddlewareConfig _config = configOptions.Value;
 
-    //todo log request method and optionally request body
+    //todo log request method and optionally request body: UPD implemented in rocket
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -26,7 +26,9 @@ public class LogUrlMiddleware(RequestDelegate next, ILogger<LogUrlMiddleware> lo
 
         var message = $"[{ip}]: {Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(context.Request)}";
 
-        var headers = _config.LogRequestHeaders ? string.Join("\n", context.Request.Headers.Select(x => "  ♦m" + x.Key + "♦r: ♦g" + string.Join("; ", x.Value!))) : "";
+        var headers = _config.LogRequestHeaders
+             ? string.Join("\n", context.Request.Headers.Select(x => "  ♦m" + x.Key + "♦r: ♦g" + string.Join("; ", x.Value.ToArray())))
+            : "";
         if (!string.IsNullOrWhiteSpace(headers)) headers = "\n♦yRequest headers:\n" + headers;
 
         var error = "";

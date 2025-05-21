@@ -5,8 +5,10 @@
              xmlns:customControls="clr-namespace:UiTools.Av.CustomControls"
              xmlns:viewModels="clr-namespace:UiTools.Av.ViewModels"
              xmlns:converters="clr-namespace:UiTools.Av.Converters"
+             xmlns:views="clr-namespace:UiTools.Av.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="UiTools.Av.Views.SortedByPanel">
+             x:Class="UiTools.Av.Views.SortedByPanel"
+             >
 
 
     <UserControl.Styles>
@@ -20,7 +22,7 @@
 
 
     <StackPanel VerticalAlignment="Center">
-        <ItemsControl ItemsSource="{Binding SelectedFields, RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <ItemsControl ItemsSource="{Binding SelectedFields, RelativeSource={RelativeSource AncestorType=views:SortedByPanel}}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="viewModels:SortableFieldVm">
                     <StackPanel Orientation="Horizontal" Background="{DynamicResource ButtonBackgroundDisabled}">

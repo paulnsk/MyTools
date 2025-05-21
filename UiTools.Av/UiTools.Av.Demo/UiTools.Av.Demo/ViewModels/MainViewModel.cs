@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using MyTools;
 using System;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using FluentAvalonia.UI.Controls;
 using UiTools.Av.Mvvm;
@@ -11,12 +10,10 @@ using UiTools.Av.Services;
 using UiTools.Av.Views;
 using UiTools.Av.ViewModels;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using UiTools.Av.Extensions;
 
 namespace UiTools.Av.Demo.ViewModels;
 
-public partial class MainViewModel : ViewModelBase
+public partial class MainViewModel : ObservableObject
 {
 
     public MainViewModel()
@@ -27,8 +24,8 @@ public partial class MainViewModel : ViewModelBase
             nameMappings: [(nameof(PersonViewModel.BirthDate), "Date of burth")],
             skipFields: [nameof(PersonViewModel.Id)]
         );
-        _sortFieldSelector.Check(nameof(PersonViewModel.BirthDate), true);
-        _sortFieldSelector.Check(nameof(PersonViewModel.Name), false);
+        //_sortFieldSelector.Check(nameof(PersonViewModel.BirthDate), true);
+        //_sortFieldSelector.Check(nameof(PersonViewModel.Name), false);
         _sortFieldSelector.SortingConditionsChanged += _sortFieldSelector_SortingConditionsChanged; 
 
 
@@ -154,16 +151,22 @@ public partial class MainViewModel : ViewModelBase
     {
         LogText += $"Adding {NumPersonsToAdd} persons...\n";
         var newPersons = Enumerable.Range(1, NumPersonsToAdd)
-            .Select(i => new PersonViewModel
+            .Select(i =>
             {
-                Name = RandomDataGenerator.RandomName(3, 8, RandomDataGenerator.CapMode.FirstCap),
-                LastName = RandomDataGenerator.RandomName(4, 10, RandomDataGenerator.CapMode.FirstCap),
-                Age = RandomDataGenerator.RandomNumber(2).Select(c => c - '0').Sum() + 18,
-                Email = $"{RandomDataGenerator.RandomName(5, 8, RandomDataGenerator.CapMode.NoCaps)}@{RandomDataGenerator.RandomName(3, 8, RandomDataGenerator.CapMode.NoCaps)}.{RandomDomain()}",
-                Phone = RandomPhone(),
-                BirthDate = RandomDataGenerator.RandomDate(DateTime.Now.AddYears(-80), DateTime.Now.AddYears(-18)),
-                Department = RandomDataGenerator.RandomName(5, 10, RandomDataGenerator.CapMode.FirstCap),
-                Salary = RandomDataGenerator.RandomNumber(5).Select(c => c - '0').Sum() * 1000 + 30000
+                var pvm = new PersonViewModel
+                {
+                    Name = RandomDataGenerator.RandomName(3, 8, RandomDataGenerator.CapMode.FirstCap),
+                    LastName = RandomDataGenerator.RandomName(4, 10, RandomDataGenerator.CapMode.FirstCap),
+                    Email =
+                        $"{RandomDataGenerator.RandomName(5, 8, RandomDataGenerator.CapMode.NoCaps)}@{RandomDataGenerator.RandomName(3, 8, RandomDataGenerator.CapMode.NoCaps)}.{RandomDomain()}",
+                    Phone = RandomPhone(),
+                    BirthDate = RandomDataGenerator.RandomDate(DateTime.Now.AddYears(-80), DateTime.Now.AddYears(-18)),
+
+                    Department = RandomDataGenerator.RandomName(5, 10, RandomDataGenerator.CapMode.FirstCap),
+                    Salary = RandomDataGenerator.RandomNumber(5).Select(c => c - '0').Sum() * 1000 + 30000
+                };
+                pvm.Age = (int)((DateTime.Now - pvm.BirthDate).TotalDays / 365);
+                return pvm;
             })
             .ToList();
         await Persons.AddRangeQueued(newPersons);

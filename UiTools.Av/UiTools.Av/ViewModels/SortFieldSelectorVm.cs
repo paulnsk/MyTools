@@ -76,8 +76,7 @@ namespace UiTools.Av.ViewModels
             ReorderFieldCollection();
             
             SelectedFields = new ObservableCollection<SortableFieldVm>(CheckedFields());
-
-            //todo поднять это над  SelectedFields =
+            
             FireSortingConditionsChanged();
 
         }

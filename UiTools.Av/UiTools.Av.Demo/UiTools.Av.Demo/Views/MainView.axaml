@@ -6,12 +6,14 @@
              xmlns:fa="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
              xmlns:customControls="clr-namespace:UiTools.Av.CustomControls;assembly=UiTools.Av"
              xmlns:views="clr-namespace:UiTools.Av.Views;assembly=UiTools.Av"
+             xmlns:demo="clr-namespace:UiTools.Av.Demo"
+             xmlns:tetris="clr-namespace:UiTools.Av.Demo.Tetris"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="UiTools.Av.Demo.Views.MainView"
              x:DataType="vm:MainViewModel">
   <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+     <!--This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)--> 
     <vm:MainViewModel />
   </Design.DataContext>
 
@@ -141,12 +143,16 @@
                   <Button Command="{Binding AddRandomStackedMessagesCommand}">Add random messages</Button>
                   <Button Command="{Binding ClearStackedMessagesCommand}">Clear</Button>
               </StackPanel>
-              <views:StackableMessageView Items22Source="{Binding MessageStack.Messages, Mode=OneWay}"/>
+              <views:StackableMessageView ItemsSource="{Binding MessageStack.Messages, Mode=OneWay}"/>
           </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Tetris">
+          <tetris:TetrisGameControl/>
       </TabItem>
 
 
 
-  </TabControl>
+    </TabControl>
 
 </UserControl>

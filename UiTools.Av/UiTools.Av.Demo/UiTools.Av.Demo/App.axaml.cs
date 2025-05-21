@@ -9,6 +9,8 @@ using UiTools.Av.Demo.Views;
 using Avalonia.Styling;
 using FluentAvalonia.Styling;
 using Avalonia.Controls;
+using Microsoft.Extensions.DependencyInjection;
+using UiTools.Av.Demo.Di;
 
 
 //todo демо для ДИ
@@ -27,6 +29,12 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var collection = new ServiceCollection();
+        collection.AddDemoServices();
+        var services = collection.BuildServiceProvider();
+        var vm = services.GetRequiredService<MainViewModel>();
+
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -34,14 +42,15 @@ public partial class App : Application
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = vm
             };
+            desktop.MainWindow.WindowState = WindowState.Maximized;
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = new MainViewModel()
+                DataContext = vm
             };
         }
 

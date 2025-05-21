@@ -43,32 +43,61 @@ public class ResponsiveCollection<T>: ObservableCollection<T>
 
     //somewhat inspired by https://stackoverflow.com/questions/13302933/how-to-avoid-firing-observablecollection-collectionchanged-multiple-times-when-r
 
-    //todo android performance when adding items 1 by 1. Use BatchBlock
-        
+    //todo_ (uno) android performance when adding items 1 by 1. Use BatchBlock
+
+    private readonly ActionBlock<(ResponsiveCollection<T>, Func<Task>)> _taskQueue;
+    private bool _antiClogIgnore = false;
+
     public ResponsiveCollection()
     {
-        _taskQueue = new ActionBlock<Func<Task>>
+        _taskQueue = new ActionBlock<(ResponsiveCollection<T>, Func<Task>)>
         (
-            async t =>
+            async ((ResponsiveCollection<T> r,Func<Task> t) tupol) =>
             {
-                await MainThreadService.Instance.EnqueueOnMainThreadAndWait(t);
-                //MainThreadService.Instance.EnqueueOnMainThread(async ()=>
-                //{
-                //    await t();
-                //});
-                if (_taskQueue!.InputCount == 0) { QueueEmpty?.Invoke(this, EventArgs.Empty); }
+                //skipping the actual action if ignore flag is on, only allowing it to dequeue
+                if (!tupol.r._antiClogIgnore) await MainThreadService.Instance.EnqueueOnMainThreadAndWait(tupol.t);
+                
+                if (_taskQueue!.InputCount == 0)
+                {
+                    //reset anticlog ignore flag on queue empty
+                    tupol.r._antiClogIgnore = false;
+                    QueueEmpty?.Invoke(this, EventArgs.Empty);
+                }
             },
             new ExecutionDataflowBlockOptions { MaxDegreeOfParallelism = 1 }
         );
+        
+    }
+    //todo в номер версии добавить минуты
+
+    /// <summary>
+    /// When enabled and when number of items in queue reached <see cref="AntiClogMaxItemCount"/>, further items are ignored and a flag is set to prevent existing items from executing ths
+    /// making existing items also ignored. Once queue is cleared, the flag is reset.
+    /// </summary>
+    public bool AntiClogProtectionEnabled { get; set; } = false;
+    public int AntiClogMaxItemCount { get; set; } = 500;
+
+    private void CheckAntiClog()
+    {
+        if (!AntiClogProtectionEnabled) return;
+        if (_taskQueue.InputCount > AntiClogMaxItemCount) _antiClogIgnore = true;
     }
 
-
-    public Task Enqueue(Func<Task> f) => _taskQueue.SendAsync(f);
-    public Task Enqueue(Action a) => _taskQueue.SendAsync(() =>
+    public Task Enqueue(Func<Task> f)
     {
-        a();
-        return Task.CompletedTask;
-    });
+        CheckAntiClog();
+        return _taskQueue.SendAsync((this, f));
+    }
+
+    public Task Enqueue(Action a)
+    {
+        CheckAntiClog();
+        return _taskQueue.SendAsync((this, () =>
+        {
+            a();
+            return Task.CompletedTask;
+        }));
+    }
 
 
     /// <summary>
@@ -108,7 +137,6 @@ public class ResponsiveCollection<T>: ObservableCollection<T>
         return index;
     }
 
-    private readonly ActionBlock<Func<Task>> _taskQueue;
 
     public event EventHandler? QueueEmpty;
 

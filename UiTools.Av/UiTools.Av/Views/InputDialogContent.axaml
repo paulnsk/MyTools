@@ -7,9 +7,9 @@
              x:Class="UiTools.Av.Views.InputDialogContent">
 
     <StackPanel Orientation="Vertical" Spacing="10" VerticalAlignment="Top" HorizontalAlignment="Stretch">
-        <TextBlock Text="{Binding Prompt, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        <TextBlock Text="{Binding Prompt, RelativeSource={RelativeSource AncestorType=views:InputDialogContent}}"
                    HorizontalAlignment="Left" />
-        <TextBox Text="{Binding Input, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        <TextBox Text="{Binding Input, RelativeSource={RelativeSource AncestorType=views:InputDialogContent}}"
                  Watermark="Enter your input here" HorizontalAlignment="Stretch" />
         
     </StackPanel>

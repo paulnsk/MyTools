@@ -13,9 +13,9 @@
     <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Top">
         <!--<TextBlock Width="40" Text="{Binding Source={StaticResource ContentDialogMaxWidth}}"></TextBlock>-->
         <PathIcon
-            Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Data="{Binding IconData, RelativeSource={RelativeSource AncestorType=views:MessageDialogContent}}"
             Width="48" Height="48"
-            Foreground="{Binding IconColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            Foreground="{Binding IconColor, RelativeSource={RelativeSource AncestorType=views:MessageDialogContent}}"/>
         <!--<TextBlock
             x:Name="MessageTextBlock"
             Text="{Binding Message, RelativeSource={RelativeSource AncestorType=UserControl}}"
@@ -23,7 +23,7 @@
             MaxWidth="{Binding Source={StaticResource ContentDialogMaxWidth}, Converter={StaticResource HalfConverter}}"/>-->
         <TextBlock
             x:Name="MessageTextBlock"
-            Text="{Binding Message, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Text="{Binding Message, RelativeSource={RelativeSource AncestorType=views:MessageDialogContent}}"
             TextWrapping="Wrap"
             />
     </StackPanel>

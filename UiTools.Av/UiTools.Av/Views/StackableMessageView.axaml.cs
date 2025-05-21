@@ -12,13 +12,13 @@ public partial class StackableMessageView : UserControl
         InitializeComponent();
     }
 
-    public static readonly StyledProperty<ObservableCollection<StackableMessage>> Items22SourceProperty =
-        AvaloniaProperty.Register<StackableMessageView, ObservableCollection<StackableMessage>>(nameof(Items22Source));
+    public static readonly StyledProperty<ObservableCollection<StackableMessage>> ItemsSourceProperty =
+        AvaloniaProperty.Register<StackableMessageView, ObservableCollection<StackableMessage>>(nameof(ItemsSource));
 
-    public ObservableCollection<StackableMessage> Items22Source
+    public ObservableCollection<StackableMessage> ItemsSource
     {
-        get => GetValue(Items22SourceProperty);
-        set => SetValue(Items22SourceProperty, value);
+        get => GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
     }
     
     

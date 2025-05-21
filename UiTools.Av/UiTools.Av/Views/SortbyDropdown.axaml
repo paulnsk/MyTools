@@ -5,6 +5,7 @@
              xmlns:viewModels="clr-namespace:UiTools.Av.ViewModels"
              xmlns:customControls="clr-namespace:UiTools.Av.CustomControls"
              xmlns:converters="clr-namespace:UiTools.Av.Converters"
+             xmlns:views="clr-namespace:UiTools.Av.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="UiTools.Av.Views.SortbyDropdown">
 
@@ -45,7 +46,7 @@
                                                     VerticalAlignment="Top"
                                                     HorizontalAlignment="Right" />
                         <ListBox  Margin="0,12"
-                                 ItemsSource="{Binding $parent[UserControl].SortableFields}">
+                                 ItemsSource="{Binding $parent[views:SortbyDropdown].SortableFields}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate DataType="viewModels:SortableFieldVm">
                                     <Grid ColumnDefinitions="Auto,*,Auto,Auto">
