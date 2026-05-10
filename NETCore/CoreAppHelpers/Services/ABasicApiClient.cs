@@ -21,7 +21,9 @@ namespace CoreAppHelpers.Services
         //**********************
         public async Task<TResponse?> Get<TResponse>(string url, JsonTypeInfo<TResponse> typeInfo)
         {
+            //Console.WriteLine(url);
             var response = await ApiCall(HttpMethod.Get, url);
+            //Console.WriteLine("done " +url);
             if (typeof(TResponse) == typeof(string)) return (TResponse)(object)response!;
             return DeserializeResponse(response, typeInfo);
         }

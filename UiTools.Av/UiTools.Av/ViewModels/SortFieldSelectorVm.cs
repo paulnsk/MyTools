@@ -23,6 +23,8 @@ namespace UiTools.Av.ViewModels
                     DisplayName = nameMappings?.FirstOrDefault(x => x.fieldName == prop.Name).displayName ?? prop.Name,
                 });
             }
+
+            ReorderFieldCollection();
         }
 
         [ObservableProperty]
@@ -60,7 +62,7 @@ namespace UiTools.Av.ViewModels
             var previouslyCheckedFields = CheckedFields(except: sfvm);
 
             //removing gaps in order sequence due to unchecking of items
-            for (int i = 0; i < previouslyCheckedFields.Count; i++)
+            for (var i = 0; i < previouslyCheckedFields.Count; i++)
             {
                 previouslyCheckedFields[i].Order = i + 1;
             }

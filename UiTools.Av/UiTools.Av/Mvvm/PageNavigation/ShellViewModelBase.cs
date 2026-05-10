@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace UiTools.Av.Mvvm.PageNavigation;
@@ -22,12 +23,13 @@ public partial class ShellViewModelBase : LocatableViewModelBase
     [ObservableProperty]
     private PageViewModelBase? _currentPage;
 
-    protected async Task GotoPage<TPageViewModel>() where TPageViewModel : PageViewModelBase
+    protected async Task GotoPage<TPageViewModel>(Action<TPageViewModel>? targetPageAction = null) where TPageViewModel : PageViewModelBase
     {
         if (CurrentPage is TPageViewModel) return;
         if (_pageFactory == null) return; //design time
         if (CurrentPage != null) await CurrentPage.OnNavigatedFrom();
         CurrentPage = _pageFactory.CreatePage<TPageViewModel>();
+        targetPageAction?.Invoke((TPageViewModel)CurrentPage);
         await CurrentPage.OnNavigatedTo();
     }
 

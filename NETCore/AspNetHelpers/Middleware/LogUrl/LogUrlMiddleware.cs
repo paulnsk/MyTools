@@ -1,117 +1,81 @@
-﻿using AspNetHelpers.ErrorFiltering;
-using AspNetHelpers.Utils;
+﻿using ConsoleTools;
 using Microsoft.Extensions.Options;
-using System.IO;
+using YoloApi.Middleware.LogUrl;
 
 namespace AspNetHelpers.Middleware.LogUrl;
 
 
-/// <summary>
-/// This middleware is intended to use in conjunction with KonsoleLogger for message coloring.
-/// - Logs requests with returned status codes
-/// - Catches unhandled exceptions and logs them (client gets a "some error occurred" generic message)
-/// - For handled (by other middleware/filters) exceptions: logs response body
-/// </summary>
+public static class ExtMeth
+{
+    // copied from Utils
+    public static string Ellipsize(this string @this, int? maxLength = 100)
+    {
+        //ellipsizing turned off
+        if (maxLength == null) return @this;
+
+        const string ellipsis1 = "...< ";
+        const string ellipsis2 = " >...";
+        const int ending = 5;
+        const string text = " more chars";
+        var length = @this.Length;
+        var lengthLength = length.ToString().Length;
+
+        var extraChars = ellipsis1.Length + ellipsis2.Length + text.Length + lengthLength;
+
+        if (maxLength < extraChars + ending + 1) return @this;
+        if (length <= maxLength) return @this;
+
+        var before = @this[..(maxLength.Value - ending - extraChars)];
+        var after = @this[(length - ending)..];
+
+        return $"{before}{ellipsis1}{length - ending - extraChars}{text}{ellipsis2}{after}";
+    }
+}
+
 public class LogUrlMiddleware(RequestDelegate next, ILogger<LogUrlMiddleware> logger, IOptions<LogUrlMiddlewareConfig> configOptions)
 {
     private readonly LogUrlMiddlewareConfig _config = configOptions.Value;
 
-    //todo log request method and optionally request body: UPD implemented in rocket
-
     public async Task InvokeAsync(HttpContext context)
     {
-        _context = context;
-
         var ip = new MyIpAddress(context.Connection.RemoteIpAddress);
+        var requestUrl = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(context.Request);
+        var baseMessage = $"[♣G{ip}♣=]: <♣M{context.Request.Method}♣=> ♣b{requestUrl}♣=";
 
-        var message = $"[{ip}]: {Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(context.Request)}";
-
+        
         var headers = _config.LogRequestHeaders
-             ? string.Join("\n", context.Request.Headers.Select(x => "  ♦m" + x.Key + "♦r: ♦g" + string.Join("; ", x.Value.ToArray())))
+            ? string.Join("\n", context.Request.Headers.Select(x => "  ♦m" + x.Key + "♦r: ♦g" + string.Join("; ", x.Value.ToArray())))
             : "";
         if (!string.IsNullOrWhiteSpace(headers)) headers = "\n♦yRequest headers:\n" + headers;
 
-        var error = "";
-
-        PrepareBodyStream();
-
-        var exceptionWasHandledByOtherMiddleware = true;
-
-        try
-        {
-            // - generic exceptions are logged but not shown to client
-            // - filtered errors such as StatusCodeException or validation errors are not thrown here.
-            //   Assuming that that the filter does put them in the response body
-            //   we log such bodies below (on a consition that status code is not OK and exception was not thrown)
-            //   (to disable validation error filter google SuppressModelStateInvalidFilter (bad idea))
-            await next(context);
-        }
-        catch (Exception e)
-        {
-            exceptionWasHandledByOtherMiddleware = false;
-
-            //context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            var someId = $"<{Guid.NewGuid():N}>";
-
-            await context.Response.WriteAsync("An error occurred." + (_config.LogExceptionMessage ? $" See server log for details {someId}." : ""));
-
-            error = _config.LogExceptionMessage ? $" ♦y(♦r{someId}{e.ToStringWithInners()}♦y)" : "";
-        }
         
-        //restoring streams
-        var responseBodyTask = ReadResponseBody();
-
-        var statusCode = context.Response.StatusCode;
-
-        if (statusCode >= 300 && exceptionWasHandledByOtherMiddleware)
+        var requestBody = "";
+        if (_config.LogRequestBody && context.Request.Method == "POST")
         {
-            error = _config.LogExceptionMessage ? $" ♦y(♦r{await responseBodyTask}♦y)" : "";
+            context.Request.EnableBuffering();
+            using var reader = new StreamReader(
+                context.Request.Body,
+                encoding: System.Text.Encoding.UTF8,
+                detectEncodingFromByteOrderMarks: false,
+                leaveOpen: true);
+            requestBody = await reader.ReadToEndAsync();
+            context.Request.Body.Position = 0;
+            if (!string.IsNullOrWhiteSpace(requestBody))
+                requestBody = "\n♦yRequest body:\n♦=" + requestBody.ToSyntaxHighlightedJson().Ellipsize(500);
         }
 
+        
+        logger.LogInformation($"{baseMessage}♣= [♣gbegin♣=]{headers}{requestBody}");
+
+        
+        await next(context);
+
+        
+        var statusCode = context.Response.StatusCode;
         var c = "♦g";
         if (statusCode >= 300) c = "♦m";
         if (statusCode >= 400) c = "♦r";
-        logger.LogInformation($"{message}, {c}{statusCode}{error}{headers}");
-    }
-
-
-    private HttpContext? _context;
-    private Stream? _originalBodyStream;
-    private MemoryStream? _memoryStream;
-    private async Task<string> ReadResponseBody()
-    {
-        if (!_config.LogExceptionMessage) return string.Empty;
-        if (_memoryStream == null || _originalBodyStream == null || _context == null) throw new Exception($"Error in {nameof(LogUrlMiddleware)}: streams or context not assigned!");
-        _memoryStream.Position = 0;
-        await _memoryStream.CopyToAsync(_originalBodyStream);
-        _memoryStream.Position = 0;
-        using var reader = new StreamReader(_memoryStream);
-        var responseBody = await reader.ReadToEndAsync();
-        _context.Response.Body = _originalBodyStream;
-        await _memoryStream.DisposeAsync();
-        return responseBody;
-    }
-
-    
-    private void PrepareBodyStream()
-    {
-        if (_context == null) throw new Exception($"Error in {nameof(LogUrlMiddleware)}: context not assigned!");
-        if (!_config.LogExceptionMessage) return;
-        _originalBodyStream = _context.Response.Body;
-        _memoryStream = new MemoryStream();
-        _context.Response.Body = _memoryStream;
-    }
-
-
-}
-
-internal static class ExtMeth
-{
-    public static string ToStringWithInners(this Exception? @this)
-    {
-        if (@this == null) return "";
-        var result = "[" + @this.GetType() + "]: " + @this.Message;
-        if (@this.InnerException != null) result += "; Inner: " + @this.InnerException.ToStringWithInners();
-        return result;
+        
+        logger.LogInformation($"{baseMessage}, {c}{statusCode}♣= [{c}completed♣=]");
     }
 }

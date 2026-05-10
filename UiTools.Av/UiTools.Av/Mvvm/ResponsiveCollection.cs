@@ -68,7 +68,7 @@ public class ResponsiveCollection<T>: ObservableCollection<T>
         );
         
     }
-    //todo в номер версии добавить минуты
+    
 
     /// <summary>
     /// When enabled and when number of items in queue reached <see cref="AntiClogMaxItemCount"/>, further items are ignored and a flag is set to prevent existing items from executing ths

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
@@ -131,7 +132,7 @@ namespace MyTools
         }
 
 
-             /// <summary>
+        /// <summary>
         /// Generates a paragraph of random characters which resembles a meaningful text
         /// </summary>
         /// <param name="minLength"></param>
@@ -199,6 +200,58 @@ namespace MyTools
             var newSpan = new TimeSpan(0, _rnd.Next(0, (int)timeSpan.TotalMinutes), 0);
             var newDateTime = startDate + newSpan;
             return newDateTime.Date;
+        }
+
+
+        /// <summary>
+        /// Generates a file with random text content of a specified size.
+        /// The file is written to disk in chunks, avoiding high memory usage.
+        /// The final file size will be approximately the specified size.
+        /// </summary>
+        /// <param name="filePath">The full path to the file to be created.</param>
+        /// <param name="fileSizeInBytes">The desired approximate size of the file in bytes.</param>
+        /// <param name="addSomeFanciness">If true, adds random empty lines, paragraphs and indented lines.</param>
+        public static void GenerateRandomFile(string filePath, long fileSizeInBytes, bool addSomeFanciness = false)
+        {
+            using (var writer = new StreamWriter(filePath, false, Encoding.UTF8))
+            {
+                if (!addSomeFanciness)
+                {
+                    while (writer.BaseStream.Length < fileSizeInBytes)
+                    {
+                        var chunk = RandomText(500, 1000);
+                        writer.Write(chunk);
+                    }
+                }
+                else
+                {
+                    while (writer.BaseStream.Length < fileSizeInBytes)
+                    {
+                        var chunk = RandomText(100, 400); // Генерируем более короткими порциями для форматирования
+                        writer.Write(chunk);
+
+                        // С некоторой вероятностью добавляем "украшения"
+                        var chance = _rnd.Next(25);
+                        switch (chance)
+                        {
+                            case 0: // Шанс ~4% на разрыв абзаца
+                                writer.WriteLine();
+                                writer.WriteLine();
+                                break;
+                            case 1: // Шанс ~4% на новую строку с отступом
+                                writer.WriteLine();
+                                writer.Write(new string(' ', _rnd.Next(2, 10)));
+                                break;
+                            case 2:
+                            case 3:
+                            case 4: // Шанс ~12% просто на пустую строку
+                                writer.WriteLine();
+                                break;
+                                // В остальных случаях (~80%) просто продолжаем писать текст в ту же строку
+                        }
+                    }
+                }
+            }
         }
 
 
